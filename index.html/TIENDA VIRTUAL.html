@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Tienda Virtual</title>
+    <style>
+        body {
+            font-family: Forte, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ADD8E6;
+            color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        .site-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+        nav {
+            background-color: #ADD8E6;
+            overflow: hidden;
+            margin-bottom: 0; /* Elimina el espacio adicional debajo de la barra de navegación */
+        }
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+        }
+        nav a {
+            display: inline-block;
+            color: #333;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            background-color: #00FFFF;
+        }
+        .slideshow-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 0; /* Reduce el espacio entre la barra de navegación y las imágenes */
+        }
+        .slideshow-wrapper {
+            display: flex;
+            width: 700%; /* Ajustado para 6 imágenes */
+            height: 500px;
+            animation: slide 60s linear infinite; /* 60 segundos = 1 minuto */
+        }
+        .slideshow-item {
+            min-width: 16.66%; /* Ajustado para mostrar 6 imágenes en una fila */
+            height: 300px;
+        }
+        .slideshow-item img {
+            width: 100%;
+            height: 160%;
+            object-fit: cover;
+        }
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        main {
+            padding: 20px;
+        }
+        .category-card, .product-card {
+            display: inline-block;
+            width: 20%;
+            margin: 1%;
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid #00FFFF;
+            transition: transform 0.3s;
+        }
+        .category-card img, .product-card img {
+            max-width: 100%;
+            height: auto;
+        }
+        .category-card:hover, .product-card:hover {
+            transform: scale(1.05);
+        }
+        .hidden {
+            display: none;
+        }
+        .products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+        }
+        aside {
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #fff;
+            border-left: 1px solid #ddd;
+            padding: 20px;
+            width: 300px;
+            height: 100%;
+            overflow-y: auto;
+            display: none;
+        }
+        .cart-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #00FFFF;
+            color: #333;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .cart-button:hover {
+            background-color: #00FFFF;
+        }
+        ..whatsapp-icon {
+           position: left;
+           bottom: 50px;
+           left: 20px;
+           z-index: 1000;
+         }
+
+      .whatsapp-icon img {
+       width: 60px; /* Tamaño pequeño */
+      height: 60px;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="site-title"><h1>Tienda Virtual</h1></div>
+    </header>
+    <nav>
+        <div class="nav-bar">
+            <a href="#" class="inicio" onclick="showHome()">Inicio</a>
+            <a href="#" class="nav-item" onclick="showCategory('category-abbarotes-details')">Abarrotes</a>
+            <a href="#" class="nav-item" onclick="showCategory('category-mecato-details')">Mecato</a>
+            <a href="#" class="nav-item" onclick="showCategory('category-frutas-details')">Frutas y Verduras</a>
+            <a href="#" class="nav-item" onclick="showCategory('category-lacteos-details')">Lácteos</a>
+            <a href="#" class="nav-item" onclick="showCategory('category-bebidas-details')">Bebidas</a>
+			<a href="#" class="nav-item" onclick="showCategory('category-aseo-details')">Productos de Aseo</a>
+        </div>
+    </nav>
+
+    <!-- Slideshow que solo aparece en Inicio -->
+    <div class="slideshow-container" id="slideshow-container">
+        <div class="slideshow-wrapper">
+            <div class="slideshow-item"><img src="C:\Users\honey\Downloads\Beige and Orange Illustrative Food Market Presentation (2)\1.jpg" alt="Imagen 1"></div>
+            <div class="slideshow-item"><img src="C:\Users\honey\Downloads\Beige and Orange Illustrative Food Market Presentation (2)\2.jpg" alt="Imagen 2"></div>
+            <div class="slideshow-item"><img src="C:\Users\honey\Downloads\Beige and Orange Illustrative Food Market Presentation (2)\3.jpg" alt="Imagen 3"></div>
+            <div class="slideshow-item"><img src="C:\Users\honey\Downloads\Beige and Orange Illustrative Food Market Presentation (2)\4.jpg" alt="Imagen 4"></div>
+            <div class="slideshow-item"><img src="C:\Users\honey\Downloads\Beige and Orange Illustrative Food Market Presentation (2)\5.jpg" alt="Imagen 5"></div>
+            <div class="slideshow-item"><img src="C:\Users\honey\Downloads\Beige and Orange Illustrative Food Market Presentation (2)\6.jpg" alt="Imagen 6"></div>
+        </div>
+    </div>
+
+    <main id="main-content">
+        <!-- Sección de Categorías -->
+        <section id="categories">
+		<center>
+            <div class="category-card">
+                <img src="https://static.wixstatic.com/media/2ba766_601e6a16b0c941579699ede5bf45c5cb~mv2.jpeg/v1/fit/w_500,h_500,q_90/file.jpg" alt="Abarrotes">
+                <h2>Abarrotes</h2>
+                <a href="#" onclick="showCategory('category-abbarotes-details')">Ver Productos</a>
+            </div>
+            <div class="category-card">
+                <img src="https://i5.walmartimages.com/asr/b99891ab-5059-4ddb-a502-0c5882538f2d.f031389b5cc071c88cd21529d0218b0c.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF" alt="Mecato">
+                <h2>Mecato</h2>
+                <a href="#" onclick="showCategory('category-mecato-details')">Ver Productos</a>
+            </div>
+            <div class="category-card">
+                <img src="https://png.pngtree.com/png-clipart/20220927/original/pngtree-fresh-green-vegetables-fruit-and-vegetable-combination-png-image_8636593.png" alt="Frutas y Verduras">
+                <h2>Frutas y Verduras</h2>
+                <a href="#" onclick="showCategory('category-frutas-details')">Ver Productos</a>
+            </div>
+            <div class="category-card">
+                <img src="https://png.pngtree.com/png-vector/20240318/ourlarge/pngtree-dairy-products-store-composition-png-image_12001712.png" alt="Lácteos">
+                <h2>Lácteos</h2>
+                <a href="#" onclick="showCategory('category-lacteos-details')">Ver Productos</a>
+            </div>
+            <div class="category-card">
+                <img src="https://995d6a0b04.cbaul-cdnwnd.com/cd07f4028345c117fc8b8556b854647c/200000135-30c1130c13/GASEOSAS.png?ph=995d6a0b04" alt="Bebidas">
+                <h2>Bebidas</h2>
+                <a href="#" onclick="showCategory('category-bebidas-details')">Ver Productos</a>
+            </div>
+			<div class="category-card">
+                <img src="https://fullrifas.com/wp-content/uploads/2020/04/IMAGEN-COMBO-ASEO-PERSONAL-PNG-min.png" alt="Productos de Aseo">
+                <h2>Productos de Aseo</h2>
+                <a href="#" onclick="showCategory('category-aseo-details')">Ver Productos</a>
+            </div>
+		    </center>	
+        </section>
+        <!-- Contenedor de Productos (por defecto oculto) -->
+        <section id="products-section" class="hidden">
+            <div id="products-container" class="products-container"></div>
+        </section>
+    </main>
+
+    <button class="cart-button" onclick="toggleCart()">Carrito</button>
+    <aside id="cart-aside">
+        <h2>Carrito de Compras</h2>
+        <div id="cart-content">
+            <!-- Aquí se mostrarán los productos seleccionados -->
+        </div>
+        <button class="cart-button" onclick="toggleCart()">Cerrar</button>
+    </aside>
+	<div class="whatsapp-icon">
+        <a href="https://wa.me/573123456789" target="_blank" title="Contáctanos en WhatsApp"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/2048px-WhatsApp.svg.png" alt="WhatsApp"></a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Mi Tienda Virtual. Todos los derechos reservados.</p>
+    </footer>
+	
+
+    <script>
+        function toggleCart() {
+            var cartAside = document.getElementById('cart-aside');
+            cartAside.style.display = cartAside.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function showCategory(categoryId) {
+            var categories = document.getElementById('categories');
+            var slideshow = document.getElementById('slideshow-container');
+            var productsSection = document.getElementById('products-section');
+            var productsContainer = document.getElementById('products-container');
+
+            categories.style.display = 'none';
+            slideshow.style.display = 'none';
+            productsSection.classList.remove('hidden');
+            productsContainer.innerHTML = ''; // Limpia el contenedor antes de agregar nuevos productos
+
+            if (categoryId === 'category-abbarotes-details') {
+                productsContainer.innerHTML = `
+                    <div class="product-card">
+                        <img src="https://mercaldas.vtexassets.com/arquivos/ids/1326992/Arroz-ROA-x500-g_42618.jpg?v=638531052470030000" alt="Producto Abarrote">
+                        <h3>arroz roa</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $2.300</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/186323/7702511000045.jpg?v=637813981860700000" width="400" height="400" alt="Producto Abarrote">
+                        <h3>arroz diana</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $2.400</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					                    <div class="product-card">
+                        <img src="https://exitocol.vteximg.com.br/arquivos/ids/24068777/Arroz-Blanco-5000-gr-199000_a.jpg" alt="Producto Abarrote">
+                        <h3>arroz florhuila</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $2.300</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://supermercadocomunal.com/29671-large_default/arroz-supremo-1000-gr.jpg" width="200" height="200" alt="Producto Abarrote">
+                        <h3>arroz supremo</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $2.400</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/185664-800-800?v=637813979750870000&width=800&height=800&aspect=true" alt="Producto Abarrote">
+                        <h3>azucar incauca</h3>
+						<h3>1 KG</h3>
+                        <p>Precio: $5.700</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://vixark.b-cdn.net/lp-i-i-g/az%C3%BAcar-blanca-riopaila-1000g.jpg" alt="Producto Abarrote">
+                        <h3>azucar riopaila</h3>
+						<h3>1 KG</h3>
+                        <p>Precio: $5.100</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8nLM7zdJeNa2_PfNzf6P3-TdOI0WK9284fg&s" width="400" height="400" alt="Producto Abarrote">
+                        <h3>azucar manuelita</h3>
+						<h3>1 Kg</h3>
+                        <p>Precio: $5.500</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://triomcbo.com/wp-content/uploads/2024/01/C697-Azucar-Mayaguez-1Kg.jpg" width="400" height="400" alt="Producto Abarrote">
+                        <h3>azucar mayuguez</h3>
+						<h3>1 Kg</h3>
+                        <p>Precio: $5.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/200369/7702511003497.jpg?v=637814146005700000" width="400" height="400" alt="Producto Abarrote">
+                        <h3>frijoles diana</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $5.900</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://sudespensa.com.co/wp-content/uploads/2018/08/productos-sudespensa-_0038_frijo-radical.png" width="400" height="400" alt="Producto Abarrote">
+                        <h3>frijoles sudespensa</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $5.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					    <div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/365820/7707335280802.jpg?v=637877957453830000" width="400" height="400" alt="Producto Abarrote">
+                        <h3>frijoles maritza</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $4.200</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					    <div class="product-card">
+                        <img src="https://mercayahorra.com/wp-content/uploads/2020/07/Frijol-Negro-la-Soberana-x500grs.jpg" width="400" height="400" alt="Producto Abarrote">
+                        <h3>frijoles la soberana</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $4.300</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					    <div class="product-card">
+                        <img src="https://mercaldas.vtexassets.com/arquivos/ids/1304300/Lenteja-DIANA-x500-g_116385.jpg?v=638134725604930000" width="300" height="300" alt="Producto Abarrote">
+                        <h3>lentejas diana</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					    <div class="product-card">
+                        <img src="https://sudespensa.com.co/wp-content/uploads/2018/08/productos-sudespensa-_0042_lentejas.png" width="300" height="300" alt="Producto Abarrote">
+                        <h3>lentejas sudespensa</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					    <div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/365826/7707335280833.jpg?v=637877958584730000" width="300" height="300" alt="Producto Abarrote">
+                        <h3>lentejas maritza</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					    <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQunXyK1-bRIZ_g075BgXMSsgftVPWROQU3gQ&s" width="235" height="235" alt="Producto Abarrote">
+                        <h3>lentejas la soberana</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					    <div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/225564/7702206610672.jpg?v=637816536672600000" alt="Producto Abarrote">
+                        <h3>arvejas diana</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://sudespensa.com.co/wp-content/uploads/2018/08/productos-sudespensa-_0041_Arveja-americana.png" alt="Producto Abarrote">
+                        <h3>arvejas sudespensa</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/365819/7707335280772.jpg?v=637877957127700000" alt="Producto Abarrote">
+                        <h3>arvejas maritza</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_sGs8xZ9Ok86vDELJMerfJuA9OpZf9GACkw&s" width="235" height="235" alt="Producto Abarrote">
+                        <h3>arvejas la soberana</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://pastaslamuneca.com/wp-content/uploads/2021/01/PASTA-LA-MUNECA-CONCHA-250G.png" alt="Producto Abarrote">
+                        <h3>pasta la muñeca</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/186170/7702085013120-1.jpg?v=637813981340130000" alt="Producto Abarrote">
+                        <h3>pasta doria</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://lavaquita.co/cdn/shop/products/supermercados_la_vaquita_supervaquita_pasta_comarrico_250gr_conchita_pastas_alimenticias_1024x1024.jpg?v=1620493090" alt="Producto Abarrote">
+                        <h3>pasta comarrico</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://exitocol.vtexassets.com/arquivos/ids/17202530/Pastas-Conchas-LA-SOBERANA-250-Gramos-3009856_a.jpg?v=638155992431170000" alt="Producto Abarrote">
+                        <h3>pasta la soberana</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://supermercadoslacanasta.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6OTM2ODMwLCJwdXIiOiJibG9iX2lkIn19--86e53a3ccd63152e97a05a71f04a60d3a2d3c420/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--cef66509c9cdc75663c0eefd9421db1d2ea4fead/7702020011327.png?locale=es" width="500" height="500" alt="Producto Abarrote">
+                        <h3>harina de trigo haz de oro</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0cAwt4JzDco_pC_dCnuVbrlvTyKWDY8KEjg&s" width="500" height="500" alt="Producto Abarrote">
+                        <h3>harina de trigo la americana</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://ecommerce.surtifamiliar.com/backend/admin/backend/web/archivosDelCliente/items/images/Harinas-Harinas-De-Trigo-HARINA-DTRIGO-FARALLONES-x500g-463720201112183611.jpg" width="500" height="500" alt="Producto Abarrote">
+                        <h3>harina de trigo farallones</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/469424/Almohadilla-Tradicional-500g_1--1-.jpg?v=638145091356830000" width="500" height="500" alt="Producto Abarrote">
+                        <h3>harina de trigo</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3kyG4lqeBYuN3QoAoJQ6B6skyyLgs3VqFCricfSHJu0nmDPnG9v0oXw43Y7OZIcepx3g&usqp=CAU" width="500" height="500"alt="Producto Abarrote">
+                        <h3>areparina super arepa</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://eurosuper.vtexassets.com/arquivos/ids/156077/7702910002022.jpg?v=638236617867500000" width="300" height="300" alt="Producto Abarrote">
+                        <h3>areparina arepa repa</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://olimpica.vtexassets.com/arquivos/ids/866412/7702511081457.jpg?v=637910783300600000" width="700" height="700" alt="Producto Abarrote">
+                        <h3>areparina diana</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOUIbtXvbb5Q-nQ679kM3LSYQ21h9FRnf21Q&s" width="500" height="500" alt="Producto Abarrote">
+                        <h3>areparina pan</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/192053/7703812101202.jpg?v=637814017431100000" alt="Producto Abarrote">
+                        <h3>sal refisal</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://carulla.vtexassets.com/arquivos/ids/16969442/SAL-REFINADA-KILO-MI-SAL-1000-Gramo-1480352_a.jpg?v=638588554943830000" alt="Producto Abarrote">
+                        <h3>sal mi sal</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://olimpica.vtexassets.com/arquivos/ids/719751/7707226418819.jpg?v=637756145257700000" alt="Producto Abarrote">
+                        <h3>sal cristal</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://clickabasto.com/cdn/shop/products/042_a9194592-01ae-4dba-b732-ff1c96f22df3_700x700.jpg?v=1654034072" alt="Producto Abarrote">
+                        <h3>sal</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://lavaquita.co/cdn/shop/products/supermercados_la_vaquita_supervaquita_aceite_diana_900ml_avegetal_aceites_512x512.jpg?v=1620492927" width="500" height="500" alt="Producto Abarrote">
+                        <h3>aceite diana</h3>
+						<h3>900 ml</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://villavoexpress.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NTMwODUsInB1ciI6ImJsb2JfaWQifX0=--2a252c7318829ee8f949c1fbd1661a68d9bcfe76/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--cef66509c9cdc75663c0eefd9421db1d2ea4fead/aceite-riquisimo-1000ml.png?locale=es" width="500" height="500" alt="Producto Abarrote">
+                        <h3>aceite riquisimo</h3>
+						<h3>1000 ml</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://premier.com.co/wp-content/uploads/2024/02/Aceite-Premeir-Girasol-900.png" width="500" height="500" alt="Producto Abarrote">
+                        <h3>aceite premier</h3>
+						<h3>500 ml</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://colsubsidiogrocery.vtexassets.com/arquivos/ids/176629-800-auto?v=638189184440900000&width=800&height=auto&aspect=true" width="250" height="250" alt="Producto Abarrote">
+                        <h3>aceite gourmet</h3>
+						<h3>500 ml</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://bodegalaesperanza.com/images/bodegalaesperanza/products/5fa54c0971aec.jpeg" width="300" height="300" alt="Producto Abarrote">
+                        <h3>manteca frida</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $2.700</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://supermercadolaestacion.com/34535-large_default/manteca-bucaro-barra-x-250-gramos.jpg" width="500" height="500" alt="Producto Abarrote">
+                        <h3>manteca bucaro</h3>
+						<h3>250 g</h3>
+                        <p>Precio: $2.500</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://supermercadolaestacion.com/32711-thickbox_default/aceite-cremoso-fritura-tarro-x-2000-gramos.jpg" width="500" height="500" alt="Producto Abarrote">
+                        <h3>aceite solido en tarro frituras</h3>
+						<h3>2 kg</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://ecommerce.surtifamiliar.com/backend/admin/backend/web/archivosDelCliente/items/images/Aceites-Aceites-Cremosos-Solidos-MANTECA-LEFRIT-x3000g-552920201117171412.jpg" width="500" height="500" alt="Producto Abarrote">
+                        <h3>aceite solido en tarro lefrit</h3>
+						<h3>1.5 kg</h3>
+                        <p>Precio: $26.900</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/galletas-saltin-x-3-tacos-300-g-1.webp" width="500" height="500" alt="Producto Abarrote">
+                        <h3>galletas saltin noel</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/641858-800-800?v=638555376237170000&width=800&height=800&aspect=true" width="500" height="500" alt="Producto Abarrote">
+                        <h3>galletas saltinas</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2m50dgWl6kBYevR5CnvHJM9v8wxLbQt05Zw&s" width="500" height="500" alt="Producto Abarrote">
+                        <h3>galletas dore</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://misaboracolombia.com/cdn/shop/products/ducalesnoel_600x.jpg?v=1668347414" width="500" height="500" alt="Producto Abarrote">
+                        <h3>galletas ducales</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://mercaldas.vtexassets.com/arquivos/ids/1311552/Pan-tajado-BIMBO-extra-familiar-blanco-x730-g_37856.jpg?v=638272767293630000" width="500" height="500" alt="Producto Abarrote">
+                        <h3>pan para sanwidch bimbo</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					    <div class="product-card">
+                        <img src="https://olimpica.vtexassets.com/arquivos/ids/611489/7705326020505.jpg?v=637626513885100000" width="500" height="500" alt="Producto Abarrote">
+                        <h3>pan para sanwidch guadalupe</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					    <div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/pan-santa-clara-pullman-extralargo-550-g-1.webp" alt="Producto Abarrote">
+                        <h3>pan para sanwidch santa clara</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					    <div class="product-card">
+                        <img src="https://jumbo.com.do/pub/media/catalog/product/cache/5d91a1aa0232de6a069aae492eab5701/2/0/2005476-A_5.jpg" alt="Producto Abarrote">
+                        <h3>pan para sanwidch lumijor</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://yomercofacil.com/wp-content/uploads/2019/03/huevo-rojo-aa-x-30-unidades-600x600.png" alt="Producto Abarrote">
+                        <h3>huevos AA</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://elviejoparisvirtual.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6OTU5MzE0LCJwdXIiOiJibG9iX2lkIn19--bd89185436d05ce633c897232b887906a5be94c2/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fZml0IjpbNjAwLDYwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--121ebfcd4293f99df590ac1a60ec2d53d6f75b42/huevos.jpg?locale=es" alt="Producto Abarrote">
+                        <h3>huevos AAA</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://insumiaseo.com/wp-content/uploads/2022/10/cafe-sello-rojo-por-libra.webp" alt="Producto Abarrote">
+                        <h3>cafe sello rojo</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $18.900</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/185287/7702032253296.jpg?v=637813978367730000" alt="Producto Abarrote">
+                        <h3>cafe colcafe</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://www.merkadomi.com/wp-content/uploads/2018/10/IMG_1957-640x480.jpg" alt="Producto Abarrote">
+                        <h3>cocolate corona</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://supermercadoslacanasta.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6ODc2MjM0LCJwdXIiOiJibG9iX2lkIn19--151cabb8d71ad7ccd304552f36dbf4ab08b0c2d4/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--1420d7fd3d20057726f0ef3c0043db24ca0403be/7702088102074?locale=es" alt="Producto Abarrote">
+                        <h3>chocolate quesada</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://ecommerce.surtifamiliar.com/backend/admin/backend/web/archivosDelCliente/items/images/Salsas-Salsas-De-Tomate-SALSDTOMFRUCO-x1000g-NVA-150720201112165628.jpg" alt="Producto Abarrote">
+                        <h3>salsa de tomate fruco</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwDXetKgCwF86znpdPivZnyBEWbi7EEiBvvQ&s" alt="Producto Abarrote">
+                        <h3>salsa de tomate la constancia</h3>
+                        <p>Precio: $15.000</p>
+                        <button onclick="showMoreProducts('abarrotes')">Comprar</button>
+                    </div>
+                `;
+            } else if (categoryId === 'category-mecato-details') {
+                productsContainer.innerHTML = `
+                    <div class="product-card">
+                        <img src="https://mistiendas.com.co/2348-large_default/chitos-cheetos-trissitos-x50g.jpg" alt="Producto Mecato">
+                        <h3>cheetos picantes</h3>
+                        <p>Precio: $20.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://exitocol.vtexassets.com/arquivos/ids/24080783/Extruidos-Maiz-Maxi-CHEETOS-40-gr-3232323_a.jpg?v=638588650820300000" alt="Producto Mecato">
+                        <h3>cheetos de maiz</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://mercasur.com.co/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NTk0NjE1LCJwdXIiOiJibG9iX2lkIn19--4c8cf6a393003780a83fe5ad067a22471bf6cdf5/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--1420d7fd3d20057726f0ef3c0043db24ca0403be/7702189055897.jpg?locale=es" alt="Producto Mecato">
+                        <h3>cheetos flamin hot</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://copservir.vtexassets.com/arquivos/ids/1165073-800-auto?v=638414761132300000&width=800&height=auto&aspect=true" alt="Producto Mecato">
+                        <h3>cheetos boliquesos</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/detodito-fritolay-mix-x-165-g-1.webp" alt="Producto Mecato">
+                        <h3>detodito familiar mix</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/detodito-fritolay-limon-x-165-g-1.webp" alt="Producto Mecato">
+                        <h3>detodito familiar limon</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://farmaonline.com.co/wp-content/uploads/2022/11/Sin-titulo-4.jpg" alt="Producto Mecato">
+                        <h3>detodito familiar natural</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://lacaretalicores.com/cdn/shop/files/Pasabocas-BBQ-DETODITO-165-gr-3168433_a.webp?v=1713548645" alt="Producto Mecato">
+                        <h3>detodito familiar picante</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://copservir.vtexassets.com/arquivos/ids/770822/PAPA-MARGARITA-NATURAL_F.png?v=637951123764830000" alt="Producto Mecato">
+                        <h3>papas margarita natural</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://images.rappi.com/products/303954902409_fisyremikqbv_109936153940_czywvmdfwqse_16581_1.png" alt="Producto Mecato">
+                        <h3>papas margarita BBQ</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://mecato.shop/cdn/shop/products/papas-margarita-1_1080x.jpg?v=1643909363" alt="Producto Mecato">
+                        <h3>papas margarita limon</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://unidrogas.vtexassets.com/arquivos/ids/430745-800-800?v=638416190000600000&width=800&height=800&aspect=true" alt="Producto Mecato">
+                        <h3>papas margarita pollo</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://lavaquita.co/cdn/shop/products/supermercados_la_vaquita_supervaquita_doritos_185gr_mega_queso_familiar_pasabocas_700x700.jpg?v=1620489636" alt="Producto Mecato">
+                        <h3>doritos original</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/81P+2BOhgtL._SL1500_.jpg" alt="Producto Mecato">
+                        <h3>doritos flamin hot</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://ip.prod.freshop.retail.ncrcloud.com/resize?url=https://images.freshop.ncrcloud.com/00028400378086/f991cd3c0b16a6837aa3d7e2b05f761c_large.png&width=256&type=webp&quality=80" alt="Producto Mecato">
+                        <h3>doritos flamin hot limon</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://target.scene7.com/is/image/Target/GUEST_80841973-bea2-48b7-b354-559651778f94?wid=488&hei=488&fmt=pjpeg" alt="Producto Mecato">
+                        <h3>doritos cool ranch</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://eurosuper.vtexassets.com/arquivos/ids/167557-800-800?v=638237414748500000&width=800&height=800&aspect=true" alt="Producto Mecato">
+                        <h3>choclitos famliar</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://i0.wp.com/bazarlapaisita.com/wp-content/uploads/2021/03/bazar-la-paisita-choclitos-de-limocc81n-escaleritas-las-palmas-canarias.png?fit=1080%2C1080&ssl=1" alt="Producto Mecato">
+                        <h3>choclitos mediano</h3>
+                        <p>Precio: $1.800</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://latinomarket.fr/931-product_zoom/choclitos-limon-27g.jpg" alt="Producto Mecato">
+                        <h3>choclitos pequeño</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8MtVyG1ZpZitLHCT2NOqA8ZPuyZ-lQucd4w&s" alt="Producto Mecato">
+                        <h3>choclitos picantes</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLk9WC6eCGuWaPZjPxowlOhpz6AUDU06gm8DFRGfzBsNIBtrEc7gZkvpkJYq4XP_U2snk&usqp=CAU" width="500" height="500" alt="Producto Mecato">
+                        <h3>cheetos popcorn caramelos</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://mecato.shop/cdn/shop/products/snacky-caramelo.jpg?v=1643944763" width="500" height="500" alt="Producto Mecato">
+                        <h3>chito de caramelo snaky</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://images.rappi.com/products/5dbcab23-487e-41cb-8d23-52b7980b7b63.jpg" width="500" height="500" alt="Producto Mecato">
+                        <h3>palomitas de caramelo yupi</h3>
+                        <p>Precio: $14.600</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://productoslavictoria.co/wp-content/uploads/2023/08/Extrucito-Caramelo-38-g.webp" width="500" height="500" alt="Producto Mecato">
+                        <h3>chito de caramelo extrucitos</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://lh3.googleusercontent.com/K4hZc8T8xw_EomO0VRYhosrlL9BV-t6D63JeKiVYwSrOgzu8ePlf0MjTKhawiFx0cwZwmuFmUkg9-m0ofk_33rRhJQo_n9UDBFtl" alt="Producto Mecato">
+                        <h3>popetas de caramelo</h3>
+                        <p>Precio: $2.200</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://supermercadolaestacion.com/30983-large_default/popetas-de-queso.jpg" alt="Producto Mecato">
+                        <h3>popetas mix caramelo y queso</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://rapimerque.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NDkwODksInB1ciI6ImJsb2JfaWQifX0=--9096c3e479b7849ee13a627a487fbcee54f48831/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--cef66509c9cdc75663c0eefd9421db1d2ea4fead/mecato-snacks-pasabocas-rapimerque-ciudad%20jardin-pen%CC%83on-domicilios-supermercados%20(27).png?locale=es" alt="Producto Mecato">
+                        <h3>popetas de manteuilla</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://vaquitaexpress.com.co/media/catalog/product/cache/e89ece728e3939ca368b457071d3c0be/7/7/7702354953645_2.jpg" alt="Producto Mecato">
+                        <h3>dulce saladitas</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://5sentidos.es/wp-content/uploads/2023/10/Bizcocho-De-Chocolate-Colombiano-Chocorramo-65-Gramos-1200x1200.png" alt="Producto Mecato">
+                        <h3>chcorramo</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/443876/7702914601665.jpg?v=638059450281670000" alt="Producto Mecato">
+                        <h3>chocorramo miti x5</h3>
+                        <p>Precio: $8.400</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://lh3.googleusercontent.com/4260YDYYLrNKv3Nfv9v6g7d3QthEE3JLoHPlktZbwbNjQZBP8LwgCSett-FXDvE4acMx_X4qnTZYd5Ep-yExf8aNCDQi_hCHsrPzL5ybM9slm2wg=s360" alt="Producto Mecato">
+                        <h3>chocorramo mini x20</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://media.surtiplaza.co/dimen/7702914114608.png" alt="Producto Mecato">
+                        <h3>chocorramo barrita frutos rojos x5</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://multidulces.com.co/wp-content/uploads/2023/09/Chocolatina-Jet-Leche-x-50-unid.png" width="500" height="500" alt="Producto Mecato">
+                        <h3>chocolatinas jet original</h3>
+                        <p>Precio: $35.200</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://exitocol.vtexassets.com/arquivos/ids/24084392/Chocolatina-Fresas-Con-Crema-JET-348-gr-3409551_b.jpg?v=638588705422670000" width="500" height="500" alt="Producto Mecato">
+                        <h3>chocolatinas jet fresas con crema</h3>
+                        <p>Precio: $36.800</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://images.rappi.com/products/bec04ca6-cf22-4bd9-8206-45ee347002a4.jpg" width="500" height="500" alt="Producto Mecato">
+                        <h3>chocolatinas jet cookies and cream</h3>
+                        <p>Precio: $30.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://exitocol.vtexassets.com/arquivos/ids/24070562/Crema-Esparcible-Tarro-X-350-gr-972936_b.jpg?v=638588508593900000" width="500" height="500" alt="Producto Mecato">
+                        <h3>crema jet</h3>
+                        <p>Precio: $18.700</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://copservir.vtexassets.com/arquivos/ids/1256597/BON-BOM-BUM-FRESA_F.png?v=638456427935170000" alt="Producto Mecato">
+                        <h3>bombom bum rojo fresa</h3>
+                        <p>Precio: $12.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/chupeta-bon-bon-bum-surtido-tropical-x-24-und-456-g-1.webp" alt="Producto Mecato">
+                        <h3>bombom bum sutido tropical</h3>
+                        <p>Precio: $12.000</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://piragua.com.co/wp-content/uploads/2020/10/Bon-Bon-Bum-sabores-Surtidos-X-24-piragua.jpg" alt="Producto Mecato">
+                        <h3>bombom bum mascaras</h3>
+                        <p>Precio: $27.500</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://i0.wp.com/www.confiterialamundial.cl/wp-content/uploads/colombina-bon-bon-bum-flow-24u.jpg?fit=600%2C600&ssl=1" alt="Producto Mecato">
+                        <h3>bombom bum flow</h3>
+                        <p>Precio: $27.500</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://candyjobs.com.co/wp-content/uploads/2024/02/CHAO-MENTAS-MASTICABLES-LIMON-X100UND.jpg" alt="Producto Mecato">
+                        <h3>mentas chao limon</h3>
+                        <p>Precio: $27.500</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://maxitenjo.com.co/cdn/shop/products/Barrilete-bolsa-1_2400x.jpg?v=1592684763" alt="Producto Mecato">
+                        <h3>barriletes</h3>
+                        <p>Precio: $27.500</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://villavoexpress.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NTUxMjEsInB1ciI6ImJsb2JfaWQifX0=--89107485557b874191445f11266f68895af361af/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--cef66509c9cdc75663c0eefd9421db1d2ea4fead/dulce-coffe-star-100-unidades.png?locale=es" alt="Producto Mecato">
+                        <h3>dulce cofee</h3>
+                        <p>Precio: $27.500</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://i.redd.it/9aixn25hh9291.jpg" alt="Producto Mecato">
+                        <h3>dulces de aguardientes</h3>
+                        <p>Precio: $27.500</p>
+                        <button onclick="showMoreProducts('mecato')">Comprar</button>
+                    </div>
+					
+                `;
+            } else if (categoryId === 'category-frutas-details') {
+                productsContainer.innerHTML = `
+                    <div class="product-card">
+                        <img src="https://agroactivocol.com/wp-content/uploads/2020/09/semillas-de-tomate-rio-grande.jpg" alt="Producto frutas y verduras">
+                        <h3>tomate</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $1.600</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://www.comervipc.com/wp-content/uploads/2020/04/cebolla_larga_limpia_comervipc-1.jpg" alt="Producto frutas y verduras">
+                        <h3>cebolla larga</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $3.500</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://villavoexpress.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NjAyNjI2LCJwdXIiOiJibG9iX2lkIn19--a4e61c0ff2c5aae249156f1bb5356c07cd3c37a7/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fZml0IjpbNjAwLDYwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--121ebfcd4293f99df590ac1a60ec2d53d6f75b42/cEBOLLA%20%20CABEZONA%20B.jpg?locale=es" alt="Producto frutas y verduras">
+                        <h3>cebolla cabezona</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://www.comervipc.com/wp-content/uploads/2020/04/Cebolla_cabezona_roja_comervipc.jpg" alt="Producto frutas y verduras">
+                        <h3>cebolla cabezona roja</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $2.300</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://arjosimarprod.vteximg.com.br/arquivos/ids/155671-1000-1000/Papa-Negra-Kg-1-5919.jpg?v=637377693869800000" alt="Producto frutas y verduras">
+                        <h3>papa negra</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $600</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/papa-criolla-kilo-1000-g-1.webp" alt="Producto frutas y verduras">
+                        <h3>papa amarilla</h3>
+                        <p>Precio: $1.300</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://elviejoparisvirtual.com/rails/active_storage/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NTQwMDQ4LCJwdXIiOiJibG9iX2lkIn19--e4fe50dfd8614378a694d3e00b9e235d39bdb436/arracacha-868712b3-bcdc-4535-890b-6282c6d1f10a.jpg?locale=es" alt="Producto frutas y verduras">
+                        <h3>arracacha</h3>
+                        <h3>500 g</h3>
+                        <p>Precio: $2.900</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://mimercadosaludable.com/1431-large_default/ahuyama-organica-x-unidad-pequenos-cultivos.jpg" alt="Producto frutas y verduras">
+                        <h3>auyama</h3>
+                        <h3>500 g</h3>
+                        <p>Precio: $1.600</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://lavaquita.co/cdn/shop/products/b1c0c968-29f7-4958-8d5b-cd3cdf80f5d0_700x700.png?v=1622197544" alt="Producto frutas y verduras">
+                        <h3>pimenton</h3>
+						 <h3>500 g</h3>
+                        <p>Precio: $2.100</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://i5.walmartimages.com.mx/gr/images/product-images/img_large/00000000003171L.jpg?odnHeight=612&odnWidth=612&odnBg=FFFFFF" alt="Producto frutas y verduras">
+                        <h3>cilantro</h3>
+                        <p>Precio: $1.000</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://verdelevante.com/wp-content/uploads/2023/12/Perejil.png" alt="Producto frutas y verduras">
+                        <h3>perejil</h3>
+                        <p>Precio: $1.000</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://olimpica.vtexassets.com/arquivos/ids/1158837/24651486.jpg?v=638313358390200000" alt="Producto frutas y verduras">
+                        <h3>ajo</h3>
+                        <p>Precio: $1.500</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://mistiendas.com.co/124-large_default/apio-rama-kilo.jpg" alt="Producto frutas y verduras">
+                        <h3>apio</h3>
+                        <h3>500 g</h3>
+                        <p>Precio: $3.500</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/203197-800-800?v=637814193921200000&width=800&height=800&aspect=true" alt="Producto frutas y verduras">
+                        <h3>lechuga batavia</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://vixark.b-cdn.net/lp-i-p-g/lechuga-crespa-verde.jpg" alt="Producto frutas y verduras">
+                        <h3>lechuga crespa</h3>
+                        <p>500 g</p>
+                        <p>Precio: $4.500</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://elviejoparisvirtual.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NTM5OTg3LCJwdXIiOiJibG9iX2lkIn19--b551b9787af9314dae9b86a0a566f1f1fafa4513/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--1420d7fd3d20057726f0ef3c0043db24ca0403be/repollo-criollo.jpg?locale=es" alt="Producto frutas y verduras">
+                        <h3>repollo criollo</h3>
+                        <h3>500 g</h3>
+                        <p>Precio: $3.500</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/platano-harton-verde-y-maduro-kilo-1000-g-1.webp" alt="Producto frutas y verduras">
+                        <h3>platano verde y maduro</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $1.300</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/205432/116-1.jpg?v=637814200017630000" alt="Producto frutas y verduras">
+                        <h3>banano</h3>
+						<h3>500 g</h3>
+                        <p>Precio: $1.700</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://images.rappi.com/products/2093946571-1643227870662.png" alt="Producto frutas y verduras">
+                        <h3>fresas</h3>
+						<h3>x bandeja</h3>
+                        <p>Precio: $8.200</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://www.comfrut.com.co/wp-content/uploads/2020/12/uva-isabella.jpg" alt="Producto frutas y verduras">
+                        <h3>uvas isabella</h3>
+						<h3>x bandeja</h3>
+                        <p>Precio: $2.600</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://elviejoparisvirtual.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NTM5OTQ2LCJwdXIiOiJibG9iX2lkIn19--a3fc2193814cdb531938a68376b88c655e06d7b2/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--1420d7fd3d20057726f0ef3c0043db24ca0403be/pera-importada.jpg?locale=es" alt="Producto frutas y verduras">
+                        <h3>pera</h3>
+                        <h3>500 g</h3>
+                        <p>Precio: $3.800</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/204120/611.jpg?v=637814196400970000" alt="Producto frutas y verduras">
+                        <h3>manzanas</h3>
+                        <h3>x bandeja</h3>
+                        <p>Precio: $3.000</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/lulo-kilo-1000-g-1.webp" alt="Producto frutas y verduras">
+                        <h3>lulo</h3>
+                        <h3>500 g</h3>
+                        <p>Precio: $3.100</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/204904/932.jpg?v=637814198663770000" alt="Producto frutas y verduras">
+                        <h3>tomate de arbol</h3>
+                        <p>500 g</p>
+                        <p>Precio: $4.000</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/maracuya-kilo-1000-g-1.webp" alt="Producto frutas y verduras">
+                        <h3>maracuya</h3>
+                        <p>500 g</p>
+                        <p>Precio: $2.400</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://exitocol.vteximg.com.br/arquivos/ids/19213584/MANGO-TOMMY-UNIDAD-804861_a.jpg" alt="Producto frutas y verduras">
+                        <h3>mango tommy</h3>
+                        <p>500 g</p>
+                        <p>Precio: $4.200</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://ecommerce.surtifamiliar.com/backend/admin/backend/web/archivosDelCliente/items/images/20221013162424-Frutas-Frutas-a-Granel-Guayaba-Coronilla-Libra-8767202210131624243702.jpg" alt="Producto frutas y verduras">
+                        <h3>guayaba</h3>
+                        <h3>500 g</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('frutas y verduras')">Comprar</button>
+                    </div>
+                `;
+			} else if (categoryId === 'category-lacteos-details') {
+                productsContainer.innerHTML = `
+                    <div class="product-card">
+                        <img src="https://exitocol.vtexassets.com/arquivos/ids/23452494/Leche-Sabor-Original-ALQUERIA-1100-ml-3461170_a.jpg?v=638560851201700000" alt="Producto lacteos">
+                        <h3>leche alqueria</h3>
+						<h3>1100 ml</h3>
+                        <p>Precio: $4.500</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://elviejoparisvirtual.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NTQwOTUxLCJwdXIiOiJibG9iX2lkIn19--62b02dc0edebf11978f1d882900dc65680bb1752/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--1420d7fd3d20057726f0ef3c0043db24ca0403be/leche-colanta-uht-desla-larv.jpg?locale=es" alt="Producto lacteos">
+                        <h3>leche colanta</h3>
+                        <h3>1000 ml</h3>
+                        <p>Precio: $4.000</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/549948-800-800?v=638380151998870000&width=800&height=800&aspect=true" alt="Producto lacteos">
+                        <h3>leche parmalat</h3>
+                        <h3>900 ml</h3>
+                        <p>Precio: $4.300</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://elviejoparisvirtual.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NTQwOTcyLCJwdXIiOiJibG9iX2lkIn19--cc4db015b48ac26f86a1d3ecf1a581b3907de97f/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--1420d7fd3d20057726f0ef3c0043db24ca0403be/leche-alpina-entera-89896b67-9528-42c7-af25-22b5e116790c.jpg?locale=es" alt="Producto lacteos">
+                        <h3>leche alpina</h3>
+                        <h3>900 ml</h3>
+                        <p>Precio: $4.900</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://colsubsidiogrocery.vtexassets.com/arquivos/ids/173589/7702177004234_1.jpg?v=638064783744200000" alt="Producto lacteos">
+                        <h3>leche alqueria en caja</h3>
+                        <h3>1000 ml</h3>
+                        <p>Precio: $5.900</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://lacteosbombona.com/wp-content/uploads/2020/11/Leche-uht-entera-caja-200ml-colanta-e1605108018350.jpg" alt="Producto lacteos">
+                        <h3>leche colanta en caja</h3>
+                        <p>2000 ml</p>
+                        <p>Precio: $5.800</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://copservir.vtexassets.com/arquivos/ids/1417654/LECHE-ENTERA-PARMALAT_F.png?v=638586194791300000" alt="Producto lacteos">
+                        <h3>leche parmalt en caja</h3>
+                        <h3>946 ml</h3>
+                        <p>Precio: $4.100</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://copservir.vtexassets.com/arquivos/ids/763127/LECHE-ALPINA-ENTERA_F.png?v=637950264503170000" alt="Producto lacteos">
+                        <h3>leche alpina en caja</h3>
+                        <h3>1000 ml</h3>
+                        <p>Precio: $6.100</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/crema-de-leche-alqueria-semientera-x-400-g-1.webp" alt="Producto lacteos">
+                        <h3>crema de leche alqueria</h3>
+                        <h3>400 ml</h3>
+                        <p>Precio: $4.000</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://colanta.vtexassets.com/arquivos/ids/157698/7702129035514-1.png?v=638294390053330000" alt="Producto lacteos">
+                        <h3>crema de leche colanta</h3>
+                        <h3>870 ml</h3>
+                        <p>Precio: $3.300</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://ecommerce.surtifamiliar.com/backend/admin/backend/web/archivosDelCliente/items/images/20220503150853-Reposteria-Cremas-De-Leche-Crema-De-Leche-Parmalat-x200ml-11138202205031508538308.jpg" alt="Producto lacteos">
+                        <h3>crema de leche parmalat</h3>
+                        <h3>200 ml</h3>
+                        <p>Precio: $3.000</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://rapimerque.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTAxMTYwLCJwdXIiOiJibG9iX2lkIn19--b14707513a27e67de0909c976fd2ca3bd9e13ec4/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--cef66509c9cdc75663c0eefd9421db1d2ea4fead/Disen%CC%83o%20sin%20ti%CC%81tulo%20(28).png?locale=es" alt="Producto lacteos">
+                        <h3>crema de leche alpina</h3>
+                        <h3>200 ml</h3>
+                        <p>Precio: $4.500</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://ecommerce.surtifamiliar.com/backend/admin/backend/web/archivosDelCliente/items/images/20240618103751-Dulceria-Dulceria-Tipica-Arequipe-Alqueria-x220g-Tradicional-2638202406181037519486.jpg" alt="Producto lacteos">
+                        <h3>arequipe alqueria</h3>
+                        <h3>220 g</h3>
+                        <p>Precio: $6.800</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://megatiendas.vtexassets.com/arquivos/ids/169557/7702129009225.jpg?v=638540592376570000" alt="Producto lacteos">
+                        <h3>arequipe colanta</h3>
+                        <h3>220 g</h3>
+                        <p>Precio: $6.500</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/dulce-de-leche-parmalat-x-220-g-1.webp" alt="Producto lacteos">
+                        <h3>arequipe parmalat</h3>
+                        <h3>220 g</h3>
+                        <p>Precio: $6.000</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://exitocol.vtexassets.com/arquivos/ids/24069914/Arequipe-Alpina-X-220-gr-104759_b.jpg?v=638588496410500000" alt="Producto lacteos">
+                        <h3>arequipe alpina</h3>
+                        <p>220 g</p>
+                        <p>Precio: $7.100</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSagKB3oYFFYOEkZDlUHcMRp2VjZHGMSNaF_w&s" width="500" height="500" alt="Producto lacteos">
+                        <h3>leche en polvo alqueria</h3>
+                        <h3>330 g</h3>
+                        <p>Precio: $12.800</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://exitocol.vtexassets.com/arquivos/ids/24079307/LECHE-POLVO-ENTERA-COLANTA-900-gr-3119837_a.jpg?v=638588631204870000" width="500" height="500" alt="Producto lacteos">
+                        <h3>leche en polvo colanta</h3>
+                        <h3>900 g</h3>
+                        <p>Precio: $29.000</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/leche-parmalat-polvo-200--g~entera-1.webp" width="500" height="500" alt="Producto lacteos">
+                        <h3>leche en polvo parmalat</h3>
+                        <h3>200 g</h3>
+                        <p>Precio: $8.500s</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://copservir.vtexassets.com/arquivos/ids/1257121-800-auto?v=638456593965800000&width=800&height=auto&aspect=true" width="500" height="500" alt="Producto lacteos">
+                        <h3>leche en polvo klim</h3>
+                        <h3>360</h3>
+                        <p>Precio: $19.900</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/yogurt-alqueria-vaso-mora-x-150-g-1.webp" alt="Producto lacteos">
+                        <h3>yogurt en vaso alqueria</h3>
+                        <h3>150 g</h3>
+                        <p>Precio: $1.900</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://colanta.vtexassets.com/arquivos/ids/158254/4535-1.png?v=638453564923030000" alt="Producto lacteos">
+                        <h3>yogurt en vaso colanta</h3>
+                        <h3>200 g</h3>
+                        <p>Precio: $2.500</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://mistiendas.com.co/18971-large_default/yogurt-vaso-x-150-parmalat-pr-mt.jpg" alt="Producto lacteos">
+                        <h3>yogurt en vaso parmalat</h3>
+                        <h3>150 g</h3>
+                        <p>Precio: $1.000</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://alpina.com/media/catalog/product/cache/b6f2be0b6c86c25988d2ad5d737f6527/y/o/yogurt_mora_200g_frontal_2.png" alt="Producto lacteos">
+                        <h3>yougurt en vaso alpina</h3>
+                        <h3>200 g</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://static.compreloadomicilio.com/autoserviciolaamistad/products/01591/608dcfb6b6f96672656205.webp" alt="Producto lacteos">
+                        <h3>leche condensada la lechera</h3>
+                        <h3>320 g</h3>
+                        <p>Precio: $9.900</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://mercaldas.vtexassets.com/arquivos/ids/1320932/Leche-condensada-COLOMBINA-x300-g_59701.jpg?v=638437068906600000" alt="Producto lacteos">
+                        <h3>leche condensada colombina</h3>
+                        <h3>300 g</h3>
+                        <p>Precio: $5.000</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://colanta.com/sabe-mas/wp-content/uploads/Leche-condensada-300.jpg" alt="Producto lacteos">
+                        <h3>leches condensada colanta</h3>
+                        <h3>300 g</h3>
+                        <p>Precio: $6.900</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://web.superboom.net/web/image/product.template/35721/image_1024?unique=f31c36f" alt="Producto lacteos">
+                        <h3>leche condensada alpina</h3>
+                        <h3>420 g</h3>
+                        <p>Precio: $11.400</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://mistiendas.com.co/3955-large_default/yogurt-mora-x-1000-gr-colanta-tarro.jpg" alt="Producto lacteos">
+                        <h3>yourt en tarro familiar colanta</h3>
+                        <h3>1000 g</h3>
+                        <p>Precio: $8.500</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://www.lacteosbetania.com/wp-content/uploads/2021/12/Yogurt_FrutosRojos_1000.jpg" alt="Producto lacteos">
+                        <h3>yourt en tarro familiar betania</h3>
+                        <h3>1000 g</h3>
+                        <p>Precio: $11.500</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://maxitenjo.com.co/cdn/shop/products/QQQ_4_522ec2c5-e507-43bd-af75-c64ace7335f9_1024x.jpg?v=1595615019" alt="Producto lacteos">
+                        <h3>yourt en tarro familiar alpina</h3>
+                        <h3>1750 g</h3>
+                        <p>Precio: $20.400</p>
+                        <button onclick="showMoreProducts('lacteos')">Comprar</button>
+                `;
+			} else if (categoryId === 'category-bebidas-details') {
+                productsContainer.innerHTML = `
+                    <div class="product-card">
+                        <img src="https://www.tulicorera.online/wp-content/uploads/2019/09/5.PL-3-L-POSTOBON.jpg" alt="Producto bebidas">
+                        <h3>gaseosa postobon</h3>
+                        <h3>3 l</h3>
+                        <p>Precio: $9.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://countryspizza.com.co/wp-content/uploads/2020/09/gaseosa-3-litros.jpg" alt="Producto bebidas">
+                        <h3>gaseosa colombiana</h3>
+                        <h3>3 l</h3>
+                        <p>Precio: $9.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://drogueriacalle5ta.com/wp-content/uploads/2023/11/mpava-43155.jpg" alt="Producto bebidas">
+                        <h3>gaseosa pepsi</h3>
+                        <h3>3 l</h3>
+                        <p>Precio: $9.500</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://trennocturno.com/wp-content/uploads/2024/07/descarga__1___1_-removebg-preview.png" alt="Producto bebidas">
+						<br>
+						<br>
+						<br>
+                        <h3>gaseosa coca-cola</h3>
+                        <h3>3 l</h3>
+                        <p>Precio: $10.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://rapimerque.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NDIxMDQsInB1ciI6ImJsb2JfaWQifX0=--4958a1e3f99cb94df585c9604f83aed550608bd8/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZml0IjpbNjAwLDYwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--db42ba722be1e76788976c3dae164d352f833ae3/bebidas%20liquidas-gaseosa-refrescosupermercados-rapimerque-domicilios-envios-cali-mercar%20en%20linea%20(10).png?locale=es" width="500" height="500" alt="Producto bebidas">
+                        <h3>gaseosa seven up</h3>
+                        <h3>3 l</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://copservir.vtexassets.com/arquivos/ids/1162703-150-auto?v=638412991376400000&width=150&height=auto&aspect=true" width="500" height="500"alt="Producto bebidas">
+                        <h3>gaseosa quatro</h3>
+                        <h3>3 l</h3>
+                        <p>Precio: $7.800</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD0wJA9iFPD-14TyZjTyJAySIz8DEA-LrvbQ&s" width="500" height="500" alt="Producto bebidas">
+                        <h3>gaseosa big cola</h3>
+                        <h3>3 l</h3>
+                        <p>Precio: $8.800</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://lavaquita.co/cdn/shop/products/supermercados_la_vaquita_supervaquita_pony_malta_pet_1500ml_bebidas_liquidas_1024x1024.jpg?v=1621963571" width="500" height="500" alt="Producto bebidas">
+                        <h3>pony malta familiar</h3>
+                        <h3>3 l</h3>
+                        <p>Precio: $8.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://mistiendas.com.co/1814-large_default/gaseosa-postobon-x400-manzana.jpg" alt="Producto bebidas">
+                        <h3>gaseosa postobon personal</h3>
+                        <h3>400 ml</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://www.mipymestore.com/wp-content/uploads/2023/12/gaseosa-personal-postobon.png" alt="Producto bebidas">
+                        <h3>gaseosa colombiana personal</h3>
+                        <h3>400 ml</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://eurosuper.vtexassets.com/arquivos/ids/176804-800-800?v=638340333350430000&width=800&height=800&aspect=true" alt="Producto bebidas">
+                        <h3>gaseosa pepsi personal</h3>
+                        <h3>400 ml</h3>
+                        <p>Precio: $2.500</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://lavaquita.co/cdn/shop/products/supermercados_la_vaquita_supervaquita_gaseosa_coca_cola_600_ml_bebidas_liquidas_1024x1024.jpg?v=1620489414" alt="Producto bebidas">
+                        <h3>gaseosa coca-cola personal</h3>
+                        <h3>400 ml</h3>
+                        <p>Precio: $2.500</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://www.amercarya.com/wp-content/uploads/2024/06/Gaseosa-QUATRO-400ml93e52f7bcd83415aaef276bbbd0d1ee4.jpg" alt="Producto bebidas">
+                        <h3>gaseosa quatro personal</h3>
+                        <h3>400 ml</h3>
+                        <p>Precio: $</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://lh3.googleusercontent.com/pfOW_hQ52FQfFvYa_gNJz26Vem26QwZqvjsryKckQ5OuFc_vH83L4-qNaUD1rmguFh2DWG_mL6hDzejaosKtYJCCYrSInYCDMuQQBRlMSfxJXxmk" alt="Producto bebidas">
+                        <h3>gaseosa seven up personal</h3>
+                        <h3>400 ml</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://www.confitiendas.com/wp-content/uploads/2022/03/12153_202102271548548295183-600x600.jpeg" alt="Producto bebidas">
+                        <h3>gaseosa big cola personal</h3>
+                        <h3>400 ml</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://copservir.vtexassets.com/arquivos/ids/1165350-800-auto?v=638415250580730000&width=800&height=auto&aspect=true" alt="Producto bebidas">
+                        <h3>pony malta personal</h3>
+                        <h3>400 ml</h3>
+                        <p>Precio: $2.200</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://lavaquita.co/cdn/shop/products/supermercados_la_vaquita_supervaquita_jugo_del_valle_citrus_1.5lt_bebidas_liquidas_1024x1024.jpg?v=1620489422" width="500" height="500" alt="Producto bebidas">
+                        <h3>jugo del valle</h3>
+                        <h3>1.5 l</h3>
+                        <p>Precio: $18.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu44uFDtJ85STPyvmnpgrfaIAcWtYcvkLjRA&s" width="500" height="500" alt="Producto bebidas">
+                        <h3>jugo del valle</h3>
+                        <h3>400 ml</h3>
+                        <p>Precio: $2.300</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://megaredil.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NTI2NTk4LCJwdXIiOiJibG9iX2lkIn19--9156f9d49b735b1e461fcf340ea484b117d69197/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJwbmciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--cef66509c9cdc75663c0eefd9421db1d2ea4fead/7702535030257.jpg?locale=es" width="500" height="500" alt="Producto bebidas">
+                        <h3>jugos del valle</h3>
+                        <h3>200 ml</h3>
+                        <p>Precio: $1.800</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://colsubsidio.vteximg.com.br/arquivos/ids/175240-1200-1200/7702535028308.jpg?v=637638480927370000" width="500" height="500"alt="Producto bebidas">
+                        <h3>jugo del valle en caja </h3>
+                        <h3>946 ml</h3>
+                        <p>Precio: $5.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://bevgo.com.co/wp-content/uploads/2020/12/2986.jpg" alt="Producto bebidas">
+                        <h3>jugo hit personal</h3>
+                        <h3>500 ml</h3>
+                        <p>Precio: $2.800</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://maxitenjo.com.co/cdn/shop/products/HIT-CAJA_800x.jpg?v=1594741482" alt="Producto bebidas">
+                        <h3>jugo hit personal </h3>
+                        <h3>200 ml</h3>
+                        <p>Precio: $1.800</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://lamecateriacolombiana.com/wp-content/uploads/2022/12/hit-tropical.jpg" alt="Producto bebidas">
+                        <h3>jugo hit caja familiar</h3>
+                        <h3>1 l</h3>
+                        <p>Precio: $5.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://tipicasempanadas.com/wp-content/uploads/2020/11/Jugo-Hit-Frutas-Tropicales-Tipicas-Empanadas.jpg" alt="Producto bebidas">
+                        <h3>jugo hit botella</h3>
+                        <h3>237 ml</h3>
+                        <p>Precio: $3.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://jumbocolombiaio.vtexassets.com/arquivos/ids/198550/7702354944995.jpg?v=637814138025870000" alt="Producto bebidas">
+                        <h3>vive 100 en lata</h3>
+                        <h3>269 ml</h3>
+                        <p>Precio: $2.500</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://static.merqueo.com/images/products/large/deaebfa0-0812-423a-8326-9d263a5da4ca.jpg" alt="Producto bebidas">
+                        <h3>speed max en lata</h3>
+                        <h3>269 ml</h3>
+                        <p>Precio: $2.500</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://vaquitaexpress.com.co/media/catalog/product/cache/e89ece728e3939ca368b457071d3c0be/7/7/7702354951160_29.jpg" alt="Producto bebidas">
+                        <h3>spartan en lata</h3>
+                        <h3>269 ml</h3>
+                        <p>Precio: $2.500</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://colsubsidiogrocery.vtexassets.com/arquivos/ids/166465-800-auto?v=638013499671470000&width=800&height=auto&aspect=true" alt="Producto bebidas">
+                        <h3>monster en lata</h3>
+                        <h3>269 ml</h3>
+                        <p>Precio: $3.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://colsubsidio.vteximg.com.br/arquivos/ids/196636-1200-1200/7702192422051--1-.jpg?v=638494167897870000" alt="Producto bebidas">
+                        <h3>gatorade</h3>
+                        <h3>500 ml</h3>
+                        <p>Precio: $3.300</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://static.merqueo.com/images/products/large/291ec2bb-af62-4905-915b-4ca3499b3a45.jpg" alt="Producto bebidas">
+                        <h3>sporade</h3>
+                        <h3>500 ml</h3>
+                        <p>Precio: $3.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://mistiendas.com.co/4265-large_default/squash-frutos-tropicales-x-500-ml.jpg" alt="Producto bebidas">
+                        <h3>squash</h3>
+                        <h3>500 ml</h3>
+                        <p>Precio: $3.200</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://lh3.googleusercontent.com/S99f7jk5YyRpHGMj_ohYuxWNaAlLiMrgKNVi16kT-VnYEL-gYBF-sf80fQmbiRHfZbt0M9F8haRJFtbVc1PEoK5Qzuq0YN4_Xmmbmdkw0hCjaOVYyQ=s360" alt="Producto bebidas">
+                        <h3>electrolit</h3>
+                        <h3>625 ml</h3>
+                        <p>Precio: $4.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://www.juancervezas.com/cdn/shop/products/CERVEZAAGUILAORIGINALLATA330ml_1200x.png?v=1668739743" width="500" height="500"alt="Producto bebidas">
+                        <h3>cerveza aguila en lata</h3>
+                        <h3>330 ml</h3>
+                        <p>Precio: $3.500</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRngcg6UmGlXO9LXMVNz0LOhl2VqYYW0lSHIw&s" width="500" height="500" alt="Producto bebidas">
+                        <h3>cerveza corona en lata</h3>
+                        <h3>269 ml</h3>
+                        <p>Precio: $4.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvSjCY0YpJ7vMNSSNzohiK753Sri7HqWcrNA&s" width="500" height="500" alt="Producto bebidas">
+                        <h3>ceveza poker en lata</h3>
+                        <h3>355 ml</h3>
+                        <p>Precio: $3.500</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyAxl13l9cIK5amSgDqYvGub5T3_NmSVwgdA&s" width="500" height="500" alt="Producto bebidas">
+                        <h3>cerveza costeña en lata</h3>
+                        <h3>330 ml</h3>
+                        <p>Precio: $3.000</p>
+                        <button onclick="showMoreProducts('bebidas')">Comprar</button>
+                    </div>
+                `;
+			} else if (categoryId === 'category-aseo-details') {
+                productsContainer.innerHTML = `
+                    <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLa67OAXjGZounyw4sJ3H7faAzKQ27LoUF1w&s" width="500" height="500" alt="Producto aseo">
+                        <h3>detergente fab en polvo</h3>
+                        <h3>2 kg</h3>
+                        <p>Precio: $20.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://megatiendas.vtexassets.com/arquivos/ids/168035/7702191164181.jpg?v=638463770414770000" width="500" height="500"alt="Producto aseo">
+                        <h3>detergente 3d en polvo</h3>
+                        <h3>2 kg</h3>
+                        <p>Precio: $25.800</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="data:image/jpeg;base64,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" width="500" height="500" alt="Producto aseo">
+                        <h3>detergente aK1 en polvo</h3>
+                        <h3>1.9 kg</h3>
+                        <p>Precio: $26.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEgL6n8-zvtjffkT0VTbuqhCqj81viQZqWmw&s" width="500" height="500" alt="Producto aseo">
+                        <h3>detergente ariel en polvo</h3>
+                        <h3>2 kg</h3>
+                        <p>Precio: $19.400</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlb9-eooX3alqYytmNVekHAPxE7dAaZG6GDQ&s" width="500" height="500" alt="Producto aseo">
+                        <h3>blanqueador limpido</h3>
+                        <h3>3.8 l</h3>
+                        <p>Precio: $12.400</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm1_kHHr1t6cDtx_DeJB5T7p9N2Bt-ktkntA&s" width="500" height="500" alt="Producto aseo">
+                        <h3>blanqueador blancox</h3>
+                        <h3>3.8 l</h3>
+                        <p>Precio: $9.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://olimpica.vtexassets.com/arquivos/ids/1463298/7702137624625_1.jpg?v=638562231204570000" width="500" height="500" alt="Producto aseo">
+                        <h3>blanqueador clorox</h3>
+                        <h3>3.8 l</h3>
+                        <p>Precio: $11.200</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtC3TD3yqx66C1nrh8-EverOGdfONHuoT0-Q&s" width="500" height="500" alt="Producto aseo">
+                        <h3>blanqueador patojito</h3>
+                        <h3>3.8 l</h3>
+                        <p>Precio: $10.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://easycolombia.vtexassets.com/arquivos/ids/181264-800-800?v=638066280286870000&width=800&height=800&aspect=true" width="500" height="500" alt="Producto aseo">
+                        <h3>galon de sanpic</h3>
+                        <h3>3 l</h3>
+                        <p>Precio: $25.900</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://www.papyser.com/catalogo/0508060.jpg" width="500" height="500" alt="Producto aseo">
+                        <h3>galon de fabuloso</h3>
+                        <h3>2.50 l</h3>
+                        <p>Precio: $30.400</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxBeTDHXFHNA3V7Gm0u_R7yTHvin0dRKk7FQ&s" width="500" height="500" alt="Producto aseo">
+                        <h3>sanpic en sachet</h3>
+                        <h3>200 ml</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7sM_2GK-tRsp84arsiRcAZvK9MwGrjm8HOPJw2-uQrmBFGkBe0x8pVwkGCzFUdHogpBs&usqp=CAU" width="500" height="500" alt="Producto aseo">
+                        <h3>fabuloso </h3>
+                        <h3>200 ml</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://vaquitaexpress.com.co/media/catalog/product/cache/e89ece728e3939ca368b457071d3c0be/7/5/7509546681962_28.jpg" width="500" height="500" alt="Producto aseo">
+                        <h3>suavitel</h3>
+                        <h3>2.8 l</h3>
+                        <p>Precio: $20.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://static.merqueo.com/images/products/large/b5b24b21-70aa-4ff7-97af-c95d4f3541cd.png" width="500" height="500" alt="Producto aseo">
+                        <h3>aromatel</h3>
+                        <h3>1.8 l</h3>
+                        <p>Precio: $15.400</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://triomcbo.com/wp-content/uploads/2020/09/A1000-Acondicionador-de-Telas-Fresca-Frangancia-200ml.jpg" width="500" height="500" alt="Producto aseo">
+                        <h3>suavitel en sobre</h3>
+                        <h3>180 ml</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP2crlKarMc2XQhgkm-dvkO7dpWzmuqnWkEQ&s" width="500" height="500" alt="Producto aseo">
+                        <h3>aromatel en sobre</h3>
+                        <h3>180 ml</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://vaquitaexpress.com.co/media/catalog/product/cache/e89ece728e3939ca368b457071d3c0be/7/5/7509546000350_29.jpg" alt="Producto aseo">
+                        <h3>crema dental colgate</h3>
+                        <h3>150 ml</h3>
+                        <p>Precio: $12.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://mercaldas.vtexassets.com/arquivos/ids/1301080/Crema-dental-FLUOCARDENT-frescura-max-x75-g_115766.jpg?v=638071471734930000" alt="Producto aseo">
+                        <h3>crema dental fluocardent</h3>
+                        <h3>150 ml</h3>
+                        <p>Precio: $9.800</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://pasteurio.vtexassets.com/arquivos/ids/179333-800-800?v=638509247850670000&width=800&height=800&aspect=true" alt="Producto aseo">
+                        <h3>crema dental fortident</h3>
+                        <h3>60 ml</h3>
+                        <p>Precio: $4.500</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					 <div class="product-card">
+                        <img src="https://colsubsidiogrocery.vtexassets.com/arquivos/ids/179779-800-auto?v=638379263218230000&width=800&height=auto&aspect=true" alt="Producto aseo">
+                        <h3>crema dental oral B </h3>
+                        <h3>150 ml</h3>
+                        <p>Precio: $11.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://ecommerce.surtifamiliar.com/backend/admin/backend/web/archivosDelCliente/items/images/20230912114341-Higiene-Desechable-Papel-Higienico-Papel-Higienico-Familia-x4und-Acolchado-Max-Megarollo-7310202309121143414457.jpg" alt="Producto aseo">
+                        <h3>papel higienico familia</h3>
+                        <h3>155 m</h3>
+                        <p>Precio: $2.500</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://bodegalaesperanza.com/images/bodegalaesperanza/products/5f6008ba7229f.jpeg" alt="Producto aseo">
+                        <h3>papel higienico elite con rollo</h3>
+                        <h3>150 m</h3>
+                        <p>Precio: $2.500</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://mistiendas.com.co/285-large_default/papel-hig-scott-maxi-triple-hoja.jpg" alt="Producto aseo">
+                        <h3>papel higienico scott</h3>
+                        <h3>120 m</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://cdn1.totalcommerce.cloud/mercacentro/product-zoom/es/papel-higienico-rosal-x-1-20-metros-1.webp" alt="Producto aseo">
+                        <h3>papel higienico rosal</h3>
+                        <h3>120 m</h3>
+                        <p>Precio: $1.400</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://www.huggies.com.co/dw/image/v2/BFDX_PRD/on/demandware.static/-/Sites-MasAbrazos_CO-storefront/default/dwc4a27b13/masabrazos/30244984%20-%2042122275%20PA%C3%91%20HUG%20ACTSEC%20M%208X25%20MAGNUM_HI.png?sw=550&sh=550&sm=fit" width="500" height="500" alt="Producto aseo">
+                        <h3>pañales huggies</h3>
+                        <p>Precio: $23.800</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD2nZR7Hvk8B9OGYtL9GiGyzbE-7b7_PxCpQ&s" width="500" height="500" alt="Producto aseo">
+                        <h3>pañales pequeñin</h3>
+                        <p>Precio: $45.900</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUREhIWFRUVGBcYGRcVFRYXGRcaGBcYHRgXFRgbHSggHh0lHRcYITEhJSkrLi4uGCAzODMsNygtLisBCgoKDg0OGhAQGy0lHyUuLS0tLS0uLS0tLS0tLS0tLS0vLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAOEA4QMBEQACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAAAwUCBAYBB//EAEgQAAIBAgQDBQMHCQUHBQAAAAECEQADBBIhMQVBUQYTImGBMnGhBxQjUpGSsRdCYnKzwdHS8DM0grLxFRZzg5Oi4SQ1Q2Oj/8QAGwEBAAMBAQEBAAAAAAAAAAAAAAECAwQFBgf/xAA4EQACAQIEBAQFAwQCAQUAAAAAAQIDEQQSITEFQVFhExRxkRUiMoGhwdHwI0Kx4QYzNCRDUmLx/9oADAMBAAIRAxEAPwD7jQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoCNr6DQso9RUXROV9Dz5yn11+8KXROSXQfOU+uv3hS6GSXQfOU+uv3hTMhkl0Mw461JU9zDrQDMOtAMw60AzDrQDMOtAMw60AzDrQDMKAZhQDMOtAMw60B4XHUUBj366eIa7ajX3VNmRdHnzlPrr94VXMi+WXQfOU+uv3hTMhkl0HzlPrr94UzLqMkuh6t9ToGUnyIpdEZX0JKkgUAoBQCgPDQHA9sO1jMxwmElmOjugJPmluOfUj0rgr4ht5IHt4Hh6S8avouSf+Wc1wTs8t9xbLMLk+JSqgrG85nDH7BWNPDqe716HZicc6X0xWXk76fhGwnA1ZsQy92LFjMHvOjiCNWC2wxJK7Dy899PKPO4xt69DFcRSpxlO93sk1ry3t1PcPwezdsXr4+iRBo9y0VDGZypF1tdI2b2o3qIYeNS+V/e3+xUxtShKKmrt8k7v76Gp2X4QL9ySBlQBiCAdTsCOfPy0qmDoqpU12R0cVxToUFl0ctPTqdm+GO2cDb6gO0RE17ysfGu5sJhyse3yMgoBOv6G2p61XQnU2LfDgTIDn35YPkSF29ajNYtkublrhYmdB7iT+NUcy6iVTccsBwgBctcNsMFvOC66lQUtFcwAmJ09K08KVrmbrRvb9zA9p7ZJyI7qO8JItXFAFsgPq4XUHQxzo6LW/wDkhV09kZ2+0aRJtOD4QVNu+HVmICqwFoiSfPXlNPB/l0T43YkHaK0TAS5ENB7q9EqJKn6LQgct6jwWT4yM+EcetYh1RSAXQugK3VLqCAWTOigrruJqJ0pQRNOqpmOL7TYO02Rr0t0RHYfaAa5/ES5nR4cuhme0eC2fEIkiR3s2592cCalSTIcGjbwXEsLd0tYi0/ktxCfsBqyK6m5fsnKcgGblmMD10NSu5D7HN3Oyg18NsZ5zAMwmXLxoNRmYmNIkxvW/jdTB0dDlO2PAjYuLcIUC7mMLsGB15DeQftrw8bTjCeaOz/yfXcHxEqtJwnvH/BVcKsy5Ato+hnOjuEH1sqEE/Heuai/m1VzuxS+T6mvSyv21L3E8GsPbiFtXF1zqt1xc/R7sICu41j8a7nRpyj0fX/R5EMXWpzTu5R6O3+TmGwbqM+RliDOUiPX1FcDTi/1PaU6c1bS75aHe9i+2Mxh8S3i2S4efRXPXoefPXfvw+Kv8szw+IcNy/wBSktOa/Y76u88QUAoAaA4jtvxjEENYw6OFj6S6NPeqnkOp9K8fE8SpZnShJX2f7Hr8Ow1LSpVfov1ZxWG4biLXj7lhA0JBGXzBBHu9a4qWLpOajCScuR7dSrQqLK5Gzcxt9kzEFkMrLXbrKTtGtyJnlXa69XNkad/uc/lMMna+vov2HD3vCTYssBse6e8NROhKv57e6samKWHfz/Lfq3qXrUqM7KpP8L9jDGYLE3CC1q6YEeLvH95liYnyrnnxKnPR1F7l6HlaX0tX+xs8EsX7NyWtXQp3AQkGJjMNJAk6evKujBcTw9GTzTVn32OTitOniaSySV46rXfsdUuEfvS5KyRlQHuwQPzh7es76AbV7UcdhpK6qK3qfOtVPDyqL7l3wbANbBzZfES2+YgneDAAXyA661s6inZxMYxa3JW4aM2cXHUmJjIQYMx4lMTsYiagsbF3F21OVriKYmCwBjrBO1EnyIukUPEuCYe67lbwtm7HeBLzr3hGmqpcAnYTE1tGpKO627GUqcW9Huat7s9h3cu2KlmQ2ye/uzkIBK63TpsTUqrJK1vwQ6UW73/JsYPshbDNcN24WuZGZ0u3VLlIKFiXMxyiKh121a23ZExopO/UxfsXh0GZLt+3ku9//aZhnA1YqwIJj1qXiZc7bW+wWHjfTrf7mph8alh3e2r3rlw+K9d1dhyURAVByUAD1rBzlVVoLb2NskaLvUf6s9v4YOQ1sC0Zkwq7+W9VWFbu5O3oPPqOkVddznMRZYYr6dcxABS6q6ZSTKkGYadzEERtFY16SptWdzqwtd1k3KNrFP21x2FXwi05ut7LW1VFTzuMVGb3EN6VnTuaVsq5Ha/JZx9r+GNu6WNy3qNCfAdtfIg/CuiMjlmuZd8X4gVl0uOMgOZChA01kMV0MefSmdc9DPd2RwvajjpxJtgAhUBOp3Zon0EfjXmYyqpytHZH1XCsJKjBzno3y6IpEYjUfgK5FdHqNJ7llwvIwuF7hV1ANtJS2HI5G4VIUiBEj1row6hJ2nKxwY11KaTpQUuvb7GWKwq901zvUVgMxRrtu4z6eygRdW+HnW/llJaSt6s5fPShNRcMy/8Aqnf8spbiT/pXDc9iyO87DdrDK4XEGZ0tufgjn8D6V6OGxH9kvsfP8S4elerS+6/VH0Gu88MUBr49nFtu7jNGk7T51SpFyi0ty0MuZZtjlMRwG9eEXLdlhp+c+sGYPlPLnXiYfhE8PLNSm09ej356o9SGLpQd4t+yNocLxIUoqWlBB2ZhE8x51lHgSVZVnK7TT17FfMUL3bfsaFrspdTuii21NkMEIYnRvakEESesV6s6NWoqiqNNT3W23prY2lj6cs123m1enQ2cLwG+meEtk3CS7F2lidOQ09IrixnC54pwzSsofSlsjOeLpStdvTRaIlPB8R9S3/1bkfZNYLgjX934X7FfMUOr9kBwfEfUT/q3f40fBJP+78R/YeZo9X7I0L/Y9nu9+bNo3JBk3Lh1AABjyArvp4bE06HgRqfL6L9jojxOMafhqTy+iOiwIxSAK9u0w6q5B+INb4Wg8PTVOKVl3PNq+BJ3i390WSSRqI8pBrsOVoxawCZgH3gfZS7FkBhl+qPsFLsiyHzVfqL9gqbsWRmqRoBUEnuWgNa9w+2xzMsk+ZqVOUV8pSVOMndgcOt/V+J/jU55EeDDoYvwm0TJT4t/GqSWbc1pt01aJW8X7KYa8sNZDHl43ETz3394qIxjHkKkpTtd7Gpwvgd7DKUwyWkU+6W3gscsnQ9aiTf9sUaUoU//AHJP7I1+Idn8XeM3HU+WaBp5Ba5Z0as92enQxeFo/RF368zRPY27+h94/wAKz8nI6fi9PuP9zbv6H3j/AAp5OQ+LU+5IOzF1Vyxb0Ob2jv8AZ00q6wk7W0MZcTouV3foef7DuCfCkTPtNpz09daSw8orW3uU+I0W1q/YgxXCSQFZbc9QTMnmf6is3TbVi0OIUoSum/Y0X4DB/NB95+BiqqgzR8WpPqfR+EXWayjNq0anqRoT8K9GDbirniVMrk8uxuVcoR3/AGTQFPxbtJhsIp7+8itlLC3IzsNYyrvqRE1pClOf0opOcY7s47sf23e612/iTfYE5Us2MPcuW7a7yzohluWp5E84HVWwyjaMberaMKVZyu2d7wbjVjFKXsXA4U5WEFWQ9HVgCp94rknCUHaSOiMlLYsKoWFAKAUAoDw0YMUaahMGdSBQCgFAKAUAoBQCgMXaBNEQyAGrlRmoTcjv2pG9SnYrJXOZ4jjnBKAgEddPjXNNyd1LkVRQXeJzAkAjfnPkI51je+hbY37gc2c0SZ21mPd1rrhRThfmZuep1nZN82Etn9ff9dqhKyN1sW9SSR3/AGTQHzL5WOA2hh7mOhjeJtJJY5VUEjwr57azvyrvwVR51DlqcmKgsrnzL/D9oMNgBgcEVKi7aWLgyhF0GrkncsdT5yd6xdKdXNPoa54wyxNLsHf+c8Qx+NtCLDm3bVogXGQQW+wT/jHnVsQslOEHuUovNOUlsd/XIdIoDF1kVDQPEWOdFsHuZ1IFAKAUAoCN0nnVWiUzy5fVRJYAAgSTzJAA98kfbViLB70KWg6ToBJ06AVVvS5KV3YyFwTFS3YgzqQYsapNy5EoyFWIIb52FXiUl0IyKA8qwIMfjrdlGu3XCoo1J/d1NQ3YlK58k7S/KJbvPlw1oACQXcSze5dh6zWMql+RZU0cqmPu3GnOwHUGCPQVmkXsjYbtRdtQtq7c/SzHMG9DMVp4kuTKuEXuj7Z8nuKN3h9i4d2DzHlccfuqY7EWtsdHVgR3/ZNAaeN4dbxFl7F5cyOII29xB5EGCD5VaEnFqS3IlFSVmcpf+TS3cFu3exmJuWrWlu2xt+EdA2WY0H2CumOMcbuMUmzB4dNWbdi74B2Tt4TKEv4hlWcqPd8CzM+BAoO53nrWNSs6m6RpCmobM6CsjQr+J8ZsYcTduKujELuxC75VGp9BVowlLZFXJLc0+N9oRYZUCZmZcyhmyT4gDAgscslmgEqomDUwp5tSJSsVw7S4ojOME2TLIH0mc+CdsnUge6dJ0q/hR2uVzy6Gxf7U91bt3LtlgGDFokZQLgRWAYAkNOYAgHKDI0ioVK7aTLZ7LVG9wztDYuhR3iq50yMSpLRJ7vMAXXowEGqypyXIlTTLOxfVwGUgg7EbaGPxFULGc0AmgKfi3aSxYUkvnIzStvxtKgaaaAkugGYjV16ibxpykVc0jas3GYCCPEgKNIJJIkkhRljbUaa1jktK/wBi7acdDLCYQhQGiQZkRBMkyRG8mZ3nnUxVlYhN21Zsd35nlOp5dNdKJWBkFjb+pqQZ1IFAa986+lXjsUluR56mxFzwtSwufL/lMxj4i6MLaMwQIG0/nE+Qj4VzVJ6nTShoUVjsaqjVjm61lnZ0eDGxhjeA3EQ92QevI0Ug6LWxy2G4W7lpXbQg8unodvI1ZMwcGff/AJNbWXhuHU8g/wC1feto7GUtzp6sQR3/AGTQGOH2oCagFAc52i4fi7t0CxdyW2tMrEswAObSFXXNrMyNEI/O01hKCXzLUpJSb0GD7H4ZJLKXmZUkhG1MZ1BhzGUS0+yDuSSdaTI8NF7hsOttQqCFEmPeST8STWTbe5fYoOL9rUstlCF4kkg7Abt7h1OnnXPUrqLslc7qGClVV20ulzDhXau3iLvzZ0a2zA5cw0bSdARvGu0GlLEKcstrMnEYGVKmqiaa525GXFex9q88hzbQplZEVRmIXKhnYZYQgR+Yu2s9sKzirHmypps9wnAbtu47riHJZLsSDlDXMpWEzZfCwcxGzKJ0qsqt19JKhbmaNngWMzMfnZDZACou3Gj+2KgkqCR408UA6HoJ0dSH/wASMkupNxHs7dvpaS5daRbdX9ohtRC5swMlSVzMrSBMA70VZRbaRLp33Zt4Ts1h7cu1tQVaVJbQAXDcEAQF8TnT9FN8oiJ1JvZkqEUX6IABGwED3eVULGdAKAUAoDF3A3olchuxrs0mYq6Vij1MWqUQUvabifcWtDDNMHoBuffrpVKs8qNaVPM9djk+yeFDi7inGrNkSfqgAkj3k/CuaMebOu+uhY3rMk1DRtF2IXsTpVbGqZyfFcP3F8/VuKRUrRmNTqfUfk+u5+H2G5kPPvFxwfiK6I7HDLc6KrFSO/7JoDCxtUMEqA86IGVSDn+1fHfm6aGDEz0G2nnP8eVc9et4a03OzB4Xx5a7HA3+0eMRpL3EO8OI08wVEjzivPeIrRerZ9BTwGEnD5Un3RtcW7VYhsuroSoOxQajdQRJHnt79zarianoY4Xh1DV6P8+5j2e49csXwz2nYXlCkZDmcZmZWtiPF7baDQirUKsoT+ZPUjG4WlVpf05L5e+np+CLjnF3vYk31R5sg6hW+j5S+nhGhGsa5tthWtVlOeaKehOEwtOnRUKkl82tv2JsFxvG2ZuOL3dEHV7b5ddirMBHvnnzqY1a8NXexFXC4Or8sGs3ZmsO0GLLC4rXYLQCAzKx+oCBBbyGtU8as3mVzZ4TBxThK117mWP41jUbO/fWZ2Lqyz95QDUzq107u6Io4XBzjljZ/wA9Tc4h2sxJRFYMjlZPhKT0MESZ8tPM8rVMTUSS2Zjh+G0JSck7r3NC32hxCgG9nuWWOzAwYOvduRBI9R1qaWJq02nLYtiOH4arFxp2Ul0/U+sYF1NtCmqFVK/qwI+Fepe+p801ldmT0IFAKAxd4olchuxBlnU1fYra7MiKgkwIq1ypQdsMOHsZCss7BRpqJ3j0BrOpaxpRTzHKdpMT81tqiWmi2B9ImWZ5wJ8XmDyrBp8jqTsrk3CeJm7bDnfYwCPgdqpc3irozvcVtowDTPkpP4Cl0WemhWdqwl2wXWQyeJcylZA3AkdKS2KtXVjufk4M8OsH/iftXmuiGxwT3OlqxUjv+yaAxw+1ATUAoDhflFw7A27y+k7ZkOZZ98EVwYxNZZo9nhUoyU6b5/robfaDhoxvzO8glHZc3/DIzkN90r72rWrTVVwkjnw+Ilho1ab3t+diXthwgYoWCnii6EcjkhaLn2QamvS8RxfRlcFivAU11X5M8RjA3ErNoR9Glw+7w8vfMf4as5LxVHsZwpvy0qnVpEnDXytj2AEi4Trzi2N6mOjl/ORWpdxprt+rNPsbx25imv27sMqhSJA2YsCpgAEaD41lh6zq3TR1Y/Bxwyg4vVixizh+GK9sCVLgbafSP1q+bw6N1yMvDeIxWVvf9iPC8QbFcNuPeALKSJgbqVKtG0iR9lUhUdSjmf8ALGlWgsPi1Tg9NPzuY8fwJ4hhsPftDxMVBj80OQHn9RgfsNRVh48YyRfC13gqlSEu/utjQ+UXEKlq1grS7ZVVR5ABQPOI+9UYq1lTRbhieadeT0X6nb8Gwhs2LVomTbRFJ6kKAa64qySPLqTzzcurubtWKGBuiY51DdgZ1INK/iFBkkAVZtRWpm3dkD8UtDdxVHVguZOpJ89t/WGuu9WzLqLhMYjHKHBPSaKcW7Ji5o8VdTctKTqMxj3AR++oqWNaL3KDiRBJPUmueW53RVkR4XCBAQIE8h1qLF0znuOcFuNmNtyGPsnMRlM76b9IqLJbkTjKS0diTA4XEC01q+Q4iAeunOofYlJ2+Y7zsBYKYCyh3XvB/wDq9dFP6Tgqq02dFVzMjv8AsmgMMPQE9AKAqu0+B77DuoHiAzL711/8etZVoZ4NHThK3hVoy9/Q5Lsr2pt2LDWXJlCxtnllbUAmZ0JO3LauTDYmEYZZPY9PH8Pq1Kuemr339THst2sS2LqXiYLl0OnMQVMnTYH1NTQxUdc7IxvDJ/I6SvpZ+pV8J44q4/5zckqc4kfpDeDynX1rGFdeO5vY7K+Bn5NUoLValzhu01gHFgk/SklTpGqx13HlPlNdCxNO8tTzpcPxFqfy+vbUqexXGbeGuXTcmHVQIjdSxgyfOufCVYwbzHo8VwtStGGRXsbOK49abAfNwTnDNy3l2II57MNx1rSpiISouKepz0MDWhi4za06/Yi4Hxu1bwN3DtIdmJG0EELtrM6Hl0qtGtCNFxe+ppi8HVni41IrTT7WLr5OMQy4a8X/ALNHlT55ZcAdPZ9WNb4K/h67HFxlR8dZd7a/oVfZy0cbxJ77apY18i5Jy+kyR0yiopf1KrnyRbFf+nw0aK3er/n4PpYrtPHFAYd2JnnRq4MMVcyqSeQotyJbHzvF4u7dveAEhtZ1gAc68+opVJstFaGY4dlaWYk+Z0HuAqyoRW5rGKPbmIE5YJB0E1Ly9DVUSN8MVYOhYeU/1FZumr3joyrpJmqMY3zhWYnmBO8kEfvrSF93uVpxsQNxEC6BcaDqyiDrG5mojd6nfpsixw2LLaAKQfPX4VbMycttTG3f8RRvt8qhS5MslcsiFKzWqsYTumdP2c/u6f4v87VtHY4av1ss6sZkd/2TQGGH2oCaaA9oBQHGce7Bpdc3LFzui2pUrmWeZHT41yVcJGbutD1cNxWpSioSV0vc1uG/JygJOIvNcMEAIMgE8+cn7POaiGDgt9Sa3F6smsisa175N7mbwYoZf0rcsPjr8Ko8Cr7my43K2sdfU8vfJxcB8OKAXq1vUf8AdVZYKK1voFxqVvp19Svbs1hiy2rON+kmDnSVZp/NI26QZrljLD1JqEG7+husbiqcHUqQ0LFfk3fKZxQz8vo/DHnr8a7PIq25z/GpZr5dPU1r/YG9bRrhui6y6i2qkZuus7xyiqSwdouzuzaHGFKaUlZdSsw/aW4mH+YokvLABVOclmLeIdQTyE6D1rCrPJ4aWpethKTreYc9N/4z6D2I4KcLhVVxFxznfyJ2B9wAHvmu+jTyQSPExdfxqrly5HQVqcwoBQFV2muRh3j6p/Cj2ZFrtI53s0uWwmZpbKCfKdYHu2rCGiN8tjO8gYmoeprHQktYZegplRNyS9YEGliUzhO1NthftuhObSByJkfHb0npWaepMlzGKVs6uhh0YwYmAQQwI5gjSidmbRipLUsExBcGcPbL6wyXGtifMAE8qv8AKyck47SIMPg3WDcuFmmfID6oO595rGe5aF+ZJ2g4+mFsF2MmIVRux5AVrDUxqyS1Ot+SjGve4Xh71wyz96Ty/wDmuaDyrpSsefJ3dzrakgjv+yaAjsDSoYJVtxRKwepnUgUBjOtUUne1iSh4zx27aZkt2DcKwRo8Fcq6yFI9olfSt4QT3Zm5WIb3ahwYGDukwWI8h003PIeR2ipVJPmQ59ibD8aa6xsvh7iA51Lx4RCsZ90LE9SOtY4ilF0pXeli9ObzLQ4excWxcVlNu6FcEAgk6HQ8to5j3V8xh6koVIxpy/G3c+hrw8WnKdSLTSvvozPD8exRcXu8aS8FSUyRzWCZn0r7athMPBOPSN82rlfr0t2Pz+ji8TOUZ33la2lrdLb3Nrgl+bwu3sW1t+9gpBMgHUHWADttXzGF8LPFu7ketSnd3lLW70/0fSQgmYE9Y1r2TqMqAUB5NRcHtSCs7QWg1og7EGof0sq3Zo5XCIUGXpp6ESPgRXPax2Rd0mepiQCZ/CiZdo2lveHMKsRYh4fxe3dY2xcVjtAn8edTZ8yMyexS9q8KVYXI/s1uH/tMVlNWZrD5lcqcDjFYyfWs7m0S3TF2xrI/ryq2hZmtiOIBvYX1NNCibOA7fK1zKZJAn7f6FaQ6nNiD7L8jaxwfCDyu/trldCZxnaVII7/smgI7LADUxQEly8BHOdo50BF8+Qe0csddPjtQElvEKxgMCd9Dy60BLQHlAKiwBFLAqU7NYUP3ndAsDOrMRPXKTHwqkKMIaxVi8qk5KzbsQX+yGFe53jIdTJWYBPnz9JiuiNWcY5E3bocvlqWfPlV+pttwDDm4LptAuCCDJgEbHLOWfSsIwjF3SNrK9yzq5IoBQHgWqKCTuhc9q4IMXbDLB2qVvYrI5S8/01wRE/HbX8K5pP5mjtjH5EznOIcFzvnN24I2AaFHpUqVuQlTzO9yywFwZSrMMsaydddqqpamrgbPCMJbRiUAEmW0Ez51fM29SmRRWiIu18ZdYykZfU6af4c1VmrtF6TtFny3A4koxRt1JU+9TH7q59nY0Rc4fGDnUlja74sQq6sSAo6k7VK1ZLdkQdp+HjKLQ1yqzE9coIn1Zia6GrKxyyVz6N8kqxwnDDyuftrlaR2OOW519WII7/smgKx7mW5qdCojSdQTMdKA9RszqQIXMdY3MH+vWpBFxjG2bYbvWCAZRmeVUlyQqox0LGPZBnbqKEGhwPCf+qL5pAQEdIYafA0ZJ1VQBQCgFAKAUAoBQGviMRCF1gwNNdPU9KlK7sUnK0W0MFdLLJIJGhI2JG5HlSSsxTldamxUFyK7iFUgFgCdqjMr2Js7XIMViYB6fjV0rblPqdkcvjbgLZqymr6nXTulYrb+IOV4EmNutc92dSRyjdosQHdLOGUZT7dxokxOiqNR61dIWe1i84Bi8TcC3sRbFsuB4ROnvnaqy0dyF9NmSdqXuMVVZKASwAGp1jz0HLzqWyIqxxXaLBFbvfBGCuqltDo3smfsB9R1rKotbl0VfzvKdTVLl7Hc9h+HsVOMujKsEWlO8H2rh940HkT1ropQtqzGcr6Iwxwzd5dI0Og8lX/zP2VqUZ3HyVf+14f/AJv7e5VobHHLc6yrFSDHXlS2zuwVQNSxAA95NSk27IrKSirvYpsNxvDXpRHzxzVTp5gkAfZWzw9SOslYwji6UvpdyMdo7CHJdfKepUx79JireVqtXSuQ8ZRj9Tsc5xHtYl1WFyyTlcZVHd3EfU925aDkcRMddtq4KladO6nBpnrUcLTrqLp1ItPft9i+7K4oAAupDXI1JkqRshH7/OtU7xTOapFRk4p3OozDapKHtAeMaMGK3JqE7h6GdSBQCgIcWrFGC+0QY5axprUxtdXKzTcXYpxcuKBasIF1BCtBAVYzjQmMx09WNb2i3mmzkvONoU1b16c/c3RixlkkKOm0RuI6g6VzVPl3Oqnef0ogfFEjwwi/XbT7orJTlU0gvudPhxhrN/Y1sXYi27jUhS2cnfTSOu9TCjld3uROrmWVbHnErv5orVsiESh4hfyaDU/AVhOpyR1QjfcpRjWBMisLmxs2TZOrR8K0UkE58mWfzhTAHsj4+QqJSTKZTHE2pj3zUEoysDkdulE9SWjmuOdj7C3hiAIQgnuxGTONhEbHeNvD0NWyLciLb0N5uNl7YRkymPzdjG3umtVK6IcbO5SdosTlsFV5gDflUTehmz6L8lqxwvDj/iftrlXh9JyS3Orq5UoO3f8AcL/6o/zrXRhP+6Jx4/8A8efocJ2Pum2meJzErz5CTsDy/oSJ9DFzWax53DqLdPN1ue8SctmcW8wILSWUAAhTOummUGZiCd9xknF87HU4Sir5b/cqsfhU8f0To2aAolrepkiYP6YiRoq6e1XRCTqLLNpxe99zirU1Sk50oyjNNWavb+djp8EyrhCQQCIjWCOkVi4w8RJbHQpzdNtt3N/5MnJXEEkkl11Jnkaz4iknFLoTwmTcZt9TuK849cUB4BQHtAKAwuPAmhDNO9dJ/hV0ijka72WkMjZWEjUZgQeokfjV01azRnKLbunZmPzbQD2iDMmNSxM+4SayrQ8SzNsPLw7rqS4hFXJnyklvDOwJ6Tvtv50jaKJm2zTxF1mWCPC9xY8wpJPpAHxqIyUldCK1NTHtBzHeqTdkdNNXZVZc1cx0o1reCD6jcEg+8HWiVyW7EtvhSjWI9xqMhGc27eHUHQVKiQ2yUqKuQmaCXR3j+RA+A/jWWzNbXRscYGbDvG6jMOum8ecTWyd0ZrSRwoxRmpTJkyLiom0aiWxVo+pfJmI4bhx07z9q9bQ2OKe51FWKlD26/uN/9Vf8608d0P6iWxaGEji5KjJ2UuZ8mwOOuWxCPlnfwoZ+0E1wVuK4io73S+x7+G/49g6Uctm/V/seYi676s0z5Lz32A6n7aU+L4mHNP1Qrf8AHMFUVkmvSTJLfELw171jqTqZ1Ig7zuP4712U+MUn/wBlP2PMq/8AGcRF/wBGvp0kv1RYHi1vuwpW7nHM93lPgyQfFqMukEcquuJ4bNfWxR8Cx2Wycfd/sTdl+0jYQOAisHIOpIOnmJrHG8XjVknCOi6mnDf+M1KFOSqz1bvp/s6ez8oafnWCP1XB/ECuZY+PNHZLglT+2S9jbt9vsMd0uj0Q/g9XWNp87mMuD4hbNfz7Ew7c4T6zj/Af3VPnaXX8FPhOJ6L3QPbnB/Wf/ptU+cpdR8JxXRe6MB26wxIVFuuxIACoJJOwEsKjzlN6K5L4TXScpWSXcurl4CC5CkgmGIB0EnnyG8V0vqeZZt6HPP2wwucoGYiYzhZQ7zHOPOOdZedpp2bOxcLxEo5kv3LnDYpHUMjB1PNSCPhXXGSkrpnBOEoO0lZkWJxS+zE8jy+yqylbQzz2eh7Zto8C5qtvxDMYA29ry8ttKzlHNvyOhSurrme4i7nIYCEScs7sSIzD9ED7Z+2wRS495ms6ux009yvsNrFcp1WNTD4+L1xOYIn1UVMXZkyjdFt381e5lYh+ca1CJsSLdqSDm7eJPzi6OjiPurWT3No7F/gL2oBq8HqRNaHEcUw/dX7lsbKxj3HUfA1ozE8u6rHu/GpYPqvyeiOH2f8AmftXrSGxx1PqZ0dXKFF25/uN/wDVH+dawxP/AFM7OH/+TD1OD7KIzL3RtLlureyE2p75wphXu6m2qETIG5rmwmVq0o78+p6fE3JTzQnqraX279ys4Q6C5bLlYyNBcSgfK+RnH1Q2UmuekoxrJT2uehiXOeFk6T1023tpexLxN1Z7X0guPlUXCptMobOYAa2qqTEzvHhE1rjErR2vzsc3DnL+otcvK9/1/JudlGIdcyDu3uKjObPeknla19kNMlonSowdle6+5PFU2lllqle17ff7dCy4VhMpw9k2kK3rmKS/4Q8d22VUW4RICiSDoTE11+HGGiju/wAHmSrzq3nKb+WKa5XelzjVOmhkdevnXlVoqNSUVyZ9Nh5ynSjOW7SPazNRQCgM7StMqGldZWZEc5G3vpexWeW1pczb4hcxF9s97O7KMuq7AAyIA8iT6zW1SVSbvLkclGnhqKtC2v8AP/w1Rab6rdNjv0rLK+h1OcOqMrN97bZkZkbqCVPrVozlB6aFZ0qdaNpJNF3Z7Y4kCDkfzZSD65SB8K648QqJa6nl1OB0JO6bR3HBQGtW713xO6K36InXRdvUya9KEs0FJ7s+fq0slWUI7JtI94jid6sRGNjnbpLE+6sap1Qi0e4S3AmawUTV3ZzGLUrjLjSIYJpOo0ABI6VDWpKLi1jBA1BnYg71e5Dievc5iP6/1oMpXY/jBtzCkmobIehUYC7cztdcRnIgdI/r4VVrmIs6fh7sSJP2VEdzR7FH2stxi2nmEP8A2gfuNdLOUr3fSqy2LI+t9gP7hZ/5n7V61pu8UclX62dDVzMou3P9xv8A6o/zrWGJ/wCqR2cP/wDJh6nzDA8VVLZtTeUMDmFu6yhj5iYGmk/jXBSxDpqyPexGC8aeZ2ZGuKtCQAQNAJVWgDN/H+orC6OrJOy19nYluY20VPWVI+jUbRIBB02HLrtNWbi1/orGnUUl9+fsbHDeIW7QIW6yyIZkN5J6TlYbTvWlGr4Wz/Bz4rDSxFnKO3dDDcRtLb7sO6q4h1DXgDpqTDazz6zWkMS43ae5lUwLnZOO222xWYxrYb6MyvSCI8tdTXHNK90epRlLLaa/n2IO8qtjW47ylhcd5SwuT4a+ozSzrKwMnMyNG8qhx1RlVu7WS+5YvjreoW/cGrEeEAc99Oeh5b+tdOdcmziVGWjcIni4+3ljvbiloLCAQSYzz4ev+hpmjbdh0Z3+iLXL9OZBeuWWOZrrk6Scvl/pp5bmZFWoN3bZrB1oK0YK3qauKNsH6Niw6kRzP7o+2s5RXI6aU5tfOrPsfT+EXx82sH/6k5xsor3qKTpRfY+JxdWUMRUilzZBjo031MfbNWmkkKFZ1JZWjU+aTJDEDlsf62+FYSVzvT1sTYfhwj2z6ACuPxWmVdVlDxLgiviHBdh4bZBGQGSW0Jy6jwjSuiivEvm5HNVxEo2sBwRFAIcwNhAjflEfhWsqKte5FHEynNRa3Ng4bSc2h02X7Yjy+FUynoWV7XON4jjwHYTsSPsNVZg3qT4S/miOW/vqk2XgdPws7UgtS03oUfbIl8RmgwFVZEHaT6HWt3qYLRGjhMBcuQFQx1P7zU5Gw5pH17sbhTawdq2TMZ9fI3GI+Bq8Y5VY45yzSuXVWKkeIsK6sjgMrAgg7EHcGoaTVmTGTi7rc5Zvk9wcyO9HkH0HukE1zPCUz0VxbEJW09jz8nuE63fvj+Wo8nT7lvi+I7ew/J7hOt374/lp5On3HxfEdvYfk9wnW798fy08nT7j4viO3sPye4Trd++P5aeTpj4viO3sPye4Trd++P5aeTp9x8XxHb2H5PcJ1u/fH8tPJ0+4+L4jt7D8nuE63fvj+Wnk6fcfF8R29h+T3Cdbv3x/LTydPuPi+I7ew/J5hOt374/lp5On3HxfEdvYfk9wnW798fy08nT7j4viO3sPye4Trd++P5aeTp9x8XxHb2H5PcJ1u/fH8tPJ0+4+L4jt7D8nuE63fvj+Wnk6fcfF8R29i1w/B0tKltMxCiBmYTHv9a7KaUI5eh5OIlOrUdS2r3PX4UD5etTNpqxFBShPMzxuGf0CKyyncqsSVOGqBAkgc5HLrXI6EszsjLxLmviOBozZ9ZiJDATvpt5munDwyJqRzVs0mmiG/wBnlYRLeXiGpGoG3lW8rNWQoZo1FKRH/sGdNYiIzD+p51llPS8eCNC78mmEclma9mOph1iTvHhqHTRyyrO7sbeD7BYW2oVTdgdXBPr4ajwolliJosLXZmyuxf7w/hUqmkQ68mR/7qYeSTmaTJBII/CrKKRDrSasbf8AsOzp4TA5TA+FXuZFiiAAACANABUAyoBQCgFAKAUAoBQCgFAKAUAoBQCgFAYPbB3FBcd0JJjU70FzEYdegoTdgWFiI3oLs9NlYiNN/toLsGyu0dfjvQXZ583Xp/X9CguyWhAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQCgFAKAUAoBQH/2Q==" width="500" height="500" alt="Producto aseo">
+                        <h3>pañales winny</h3>
+                        <p>Precio: $48.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="data:image/jpeg;base64,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" width="500" height="500" alt="Producto aseo">
+                        <h3>pañales babysec</h3>
+                        <p>Precio: $20.200</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://vixark.b-cdn.net/lp-i-i-g/jab%C3%B3n-lavaplatos-l%C3%ADquido-con-aroma-a-lim%C3%B3n-salvo-1200ml.jpg" width="500" height="500" alt="Producto aseo">
+                        <h3>jabon liquido salvo</h3>
+                        <p>Precio: $</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://www.multiexpress.com.co/wp-content/uploads/2020/08/759-Jabon-Liquido-Axion-Lavaplatos-750ml.jpg" width="500" height="500" alt="Producto aseo">
+                        <h3>jabon liquido axion</h3>
+                        <p>Precio: $</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://www.distriestrella.com/shared/rs.php?rsid=523" width="500" height="500" alt="Producto aseo">
+                        <h3>jabon en barra axion</h3>
+                        <p>Precio: $2.200</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					<div class="product-card">
+                        <img src="https://lavaquita.co/cdn/shop/products/SARIYUCAMesadetrabajo5-100_d7df298f-e2da-4ff8-9d60-f876b56ddbd3_1024x1024.jpg?v=1677524475" width="500" height="500" alt="Producto aseo">
+                        <h3>jabon en barra la joya</h3>
+                        <p>Precio: $2.000</p>
+                        <button onclick="showMoreProducts('productos de aseo')">Comprar</button>
+                    </div>
+					
+                `;
+			}
+        }
+
+        function showHome() {
+            var categories = document.getElementById('categories');
+            var slideshow = document.getElementById('slideshow-container');
+            var productsSection = document.getElementById('products-section');
+
+            categories.style.display = 'block';
+            slideshow.style.display = 'block';
+            productsSection.classList.add('hidden');
+        }
+
+        function showMoreProducts(category) {
+            // Aquí puedes agregar lógica para mostrar más productos de la categoría seleccionada
+            // dentro de la misma tarjeta de producto
+        }
+    </script>
+</body>
+</html>
